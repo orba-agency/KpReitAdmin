@@ -5,8 +5,26 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
+
 export default {
     name: 'App',
+    beforeMount() {
+      this.hydrate().then(respone => {
+        this.$store.siteLoading = false
+        if(respone) {
+          this.fetchUser().then(() => {
+            this.$router.replace({ name: 'dashboard' })
+          })
+        }
+      })
+    },
+    methods: {
+      ...mapActions({
+        hydrate: 'auth/hydrate',
+        fetchUser: 'auth/fetchUser'
+      })
+    }
 }
 </script>
 
