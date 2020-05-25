@@ -2,6 +2,7 @@ import axios from 'axios'
 import {removeWrappedQuotesFromString} from './helpers'
 import localforage from 'localforage'
 import store from './store'
+import router from './router'
 
 let baseDomain = ''
 
@@ -56,16 +57,17 @@ instance.interceptors.response.use((response) => {
         console.log('TCL: err', status);
         isRefreshing = true;
 
-        // baseStore.authenticationStore.refreshToken().then((newToken) => {
-        //     isRefreshing = false;
-        //     onRrefreshed(newToken);
-        //     refreshSubscribers = [];
-        // });
-
         store.dispatch('auth/refreshToken').then((newToken) => {
-            isRefreshing = false;
-            onRrefreshed(newToken);
-            refreshSubscribers = [];
+            if(newToken) {
+                isRefreshing = false;
+                onRrefreshed(newToken);
+                refreshSubscribers = [];
+            } else {
+                console.log(router.currentRoute);
+                store.dispatch('auth/clearAuth').then(() => {
+                    router.replace({ name: 'login' })
+                })
+            }
         })
             
     } else {
