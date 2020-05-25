@@ -92,7 +92,9 @@
                               .then(() => {
                                     this.$router.replace({ name: "login" });
                               })
-                              .catch(() => {});
+                              .catch(() => {
+                                    this.$router.replace({ name: "login" });
+                              });
                   },
             },
       };
