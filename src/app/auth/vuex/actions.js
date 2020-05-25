@@ -1,9 +1,7 @@
 import Repository from '../../../repository'
 
-import isEmpty from 'lodash'
-
-import localforage from 'localforage'
 import { setHttpToken } from '../../../helpers'
+import localforage from 'localforage'
 
 export const login = ({dispatch}, {payload, context}) => {
     context.errors = []
@@ -20,19 +18,23 @@ export const login = ({dispatch}, {payload, context}) => {
 
 export const logout = ({ dispatch }) => {
     return Repository.get('/auth/logout')
-        .then(response => {
+        .then(() => {
             dispatch('clearAuth')
         })
         .catch(error => {
+            dispatch('clearAuth')
             console.log(error)
         })
 }
 
-export const fetchUser = ({ commit, dispatch }) => {
-    return Repository.get('/user/me').then(response => {
+export const fetchUser = async ({ commit }) => {
+    try {
+        const response = await Repository.get('/user/me')
         commit('setAuthenticated', true)
         commit('setUserData', response.data)
-    })
+    } catch(error) {
+        return
+    } 
 }
 
 export const setToken = ({ commit }, token) => {
@@ -47,11 +49,21 @@ export const clearAuth = ({ commit }) => {
     setHttpToken(null)
 }
 
-export const refreshToken = async ({commit, dispatch}) => {
+export const refreshToken = async ({ dispatch}) => {
     try {
         const response = await Repository.get('/auth/refresh-token')
         dispatch('setToken', response.data.token)   
         return response.data.token
+    } catch(err) {
+        return
+    }
+}
+
+export const hydrate = async ({dispatch}) => {
+    try {
+        const token = await localforage.getItem('auth_token')
+        dispatch('setToken', token)
+        return token
     } catch(err) {
         return
     }
