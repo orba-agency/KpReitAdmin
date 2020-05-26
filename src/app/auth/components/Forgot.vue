@@ -6,9 +6,12 @@
                     <div class="card-group">
                         <div class="card p-4">
                             <div class="card-body">
-                                <h1>Login</h1>
-                                <p class="text-muted">Sign In to your account</p>
-                                <div v-if="message" class="alert alert-danger" role="alert">
+                                <h1>Forgot Password</h1>
+                                <p class="text-muted">Please fill out the form below</p>
+                                <div v-if="errorMessage" class="alert alert-danger" role="alert">
+                                    {{ errorMessage }}
+                                </div>
+                                <div v-if="message" class="alert alert-success" role="alert">
                                     {{ message }}
                                 </div>
                                 <form @submit.prevent="submit" role="form">
@@ -29,24 +32,6 @@
                                         />
                                         <div v-if="errors.email" class="invalid-feedback">{{ errors.email[0] }}</div>
                                     </div>
-                                    <div class="input-group mb-4">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <svg class="c-icon">
-                                                    <use xlink:href="@coreui/icons/sprites/free.svg#cil-lock-locked"></use>
-                                                </svg>
-                                            </span>
-                                        </div>
-                                        <input 
-                                            class="form-control" 
-                                            type="password"    
-                                            placeholder="Password"
-                                            required 
-                                            minlength="8"
-                                            v-model="password"
-                                        />
-                                        <div v-if="errors.password" class="invalid-feedback">{{ errors.password[0] }}</div>
-                                    </div>
                                     <div class="row">
                                         <div class="col-12 text-left">
                                             <button :disabled="submitButton.processing" class="btn btn-success px-4" type="submit">{{ submitButton.name }}</button>
@@ -60,7 +45,7 @@
                                 <div>
                                     <h2>Kingston Properties Admin Panel</h2>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <router-link :to="{ name: 'forgot' }" class="btn btn-lg btn-outline-light mt-3" type="button">Forgot Password</router-link>
+                                    <router-link :to="{ name: 'login' }" class="btn btn-lg btn-outline-light mt-3" type="button">Back to login</router-link>
                                 </div>
                             </div>
                         </div>
@@ -79,39 +64,31 @@ export default {
     data() {
         return {
             email: 'romario@orba.io',
-            password: 'password',
             message: null,
+            errorMessage: null,
             errors: [],
             submitButton: {
-                name: 'Login',
+                name: 'Submit',
                 processing: false
             }
         }
     },
     methods: {
         ...mapActions({
-            login: 'auth/login',
-            fetchUser: 'auth/fetchUser',
+            forgot: 'auth/forgot',
         }),
         submit() {
             this.submitButton.processing = true
             this.submitButton.name = 'Processing...'
-            this.login({
+            this.forgot({
                 payload: {
-                    email: this.email,
-                    password: this.password
+                    email: this.email
                 },
                 context: this
-            }).then(() => {
+            })
+            .then(() => {
                 this.submitButton.processing = false
-                this.submitButton.name = 'Login'
-                if (this.errors.root) {
-                    return
-                } else {
-                    this.fetchUser().then(() => {
-                        this.$router.replace({ name: 'dashboard' })
-                    })
-                }
+                this.submitButton.name = 'Submit'
             })
         }
     }

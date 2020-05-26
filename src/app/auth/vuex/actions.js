@@ -68,3 +68,43 @@ export const hydrate = async ({dispatch}) => {
         return
     }
 }
+
+export const forgot = ({dispatch}, {payload, context}) => {
+    context.errors = []
+    context.errorMessage = null
+    context.message = null
+    
+    return Repository.post('/auth/forgot', payload)
+        .then(response => {
+            context.message = response.data.message
+        })
+        .catch(error => {
+            context.errors = error.response.data.errors || []
+            context.errorMessage = error.response.data.message
+        })
+}
+
+export const checkToken = async ({commit}, payload) => {
+    try{
+        const response = await Repository.get(`/auth/check-token/${payload}`);
+        return response.data
+    } catch(error) {
+        console.log(error)
+        return
+    }
+}
+
+export const reset = ({dispatch}, {payload, context}) => {
+    context.errors = []
+    context.errorMessage = null
+    context.message = null
+    
+    return Repository.put('/auth/password-reset', payload)
+        .then(response => {
+            context.message = response.data.message
+        })
+        .catch(error => {
+            context.errors = error.response.data.errors || []
+            context.errorMessage = error.response.data.message
+        })
+}
