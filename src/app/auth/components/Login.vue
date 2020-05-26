@@ -48,11 +48,8 @@
                                         <div v-if="errors.password" class="invalid-feedback">{{ errors.password[0] }}</div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-6">
-                                            <button class="btn btn-success px-4" type="submit">Login</button>
-                                        </div>
-                                        <div class="col-6 text-right">
-                                            <button class="btn btn-link px-0" type="button">Forgot password?</button>
+                                        <div class="col-12 text-left">
+                                            <button :disabled="submitButton.processing" class="btn btn-success px-4" type="submit">{{ submitButton.name }}</button>
                                         </div>
                                     </div>
                                 </form>
@@ -63,7 +60,7 @@
                                 <div>
                                     <h2>Kingston Properties Admin Panel</h2>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <!-- <button class="btn btn-lg btn-outline-light mt-3" type="button">Register Now!</button> -->
+                                    <router-link :to="{ name: 'forgot' }" class="btn btn-lg btn-outline-light mt-3" type="button">Forgot Password</router-link>
                                 </div>
                             </div>
                         </div>
@@ -85,6 +82,10 @@ export default {
             password: 'password',
             message: null,
             errors: [],
+            submitButton: {
+                name: 'Login',
+                processing: false
+            }
         }
     },
     methods: {
@@ -93,6 +94,8 @@ export default {
             fetchUser: 'auth/fetchUser',
         }),
         submit() {
+            this.submitButton.processing = true
+            this.submitButton.name = 'Processing...'
             this.login({
                 payload: {
                     email: this.email,
@@ -100,11 +103,12 @@ export default {
                 },
                 context: this
             }).then(() => {
+                this.submitButton.processing = false
+                this.submitButton.name = 'Login'
                 if (this.errors.root) {
                     return
                 } else {
                     this.fetchUser().then(() => {
-                        console.log('redirect')
                         this.$router.replace({ name: 'dashboard' })
                     })
                 }
