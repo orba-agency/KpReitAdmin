@@ -9,7 +9,9 @@
                                 <h1>Reset Password</h1>
                                 <p class="text-muted">Please fill out the form below</p>
 
-                                <div v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+                                <div v-if="errorMessage" class="alert alert-danger" role="alert">
+                                    {{ errorMessage }}
+                                </div>
                                 <div v-if="message" class="alert alert-success" role="alert">{{ message }}</div>
                                 <div v-if="verfiying">Verfiying token...</div>
                                 <div v-if="!verfiying && !token" class="alert alert-warning">Invalid token</div>
@@ -19,14 +21,16 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
                                                 <svg class="c-icon">
-                                                    <use xlink:href="@coreui/icons/sprites/free.svg#cil-envelope-closed"></use>
+                                                    <use
+                                                        xlink:href="@coreui/icons/sprites/free.svg#cil-envelope-closed"
+                                                    ></use>
                                                 </svg>
                                             </span>
                                         </div>
-                                        <input 
-                                            class="form-control" 
-                                            type="email" 
-                                            placeholder="Email" 
+                                        <input
+                                            class="form-control"
+                                            type="email"
+                                            placeholder="Email"
                                             required
                                             v-model="email"
                                         />
@@ -36,22 +40,32 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
                                                 <svg class="c-icon">
-                                                    <use xlink:href="@coreui/icons/sprites/free.svg#cil-lock-locked"></use>
+                                                    <use
+                                                        xlink:href="@coreui/icons/sprites/free.svg#cil-lock-locked"
+                                                    ></use>
                                                 </svg>
                                             </span>
                                         </div>
-                                        <input 
-                                            class="form-control" 
-                                            type="password" 
-                                            placeholder="New Password" 
+                                        <input
+                                            class="form-control"
+                                            type="password"
+                                            placeholder="New Password"
                                             required
                                             v-model="password"
                                         />
-                                        <div v-if="errors.password" class="invalid-feedback">{{ errors.password[0] }}</div>
+                                        <div v-if="errors.password" class="invalid-feedback">
+                                            {{ errors.password[0] }}
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12 text-left">
-                                            <button :disabled="submitButton.processing" class="btn btn-success px-4" type="submit">{{ submitButton.name }}</button>
+                                            <button
+                                                :disabled="submitButton.processing"
+                                                class="btn btn-success px-4"
+                                                type="submit"
+                                            >
+                                                {{ submitButton.name }}
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -61,8 +75,16 @@
                             <div class="card-body text-center">
                                 <div>
                                     <h2>Kingston Properties Admin Panel</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <router-link :to="{ name: 'login' }" class="btn btn-lg btn-outline-light mt-3" type="button">Back to login</router-link>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua.
+                                    </p>
+                                    <router-link
+                                        :to="{ name: 'login' }"
+                                        class="btn btn-lg btn-outline-light mt-3"
+                                        type="button"
+                                        >Back to login</router-link
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -74,7 +96,6 @@
 </template>
 
 <script>
-
 import { mapActions } from 'vuex'
 
 export default {
@@ -86,18 +107,18 @@ export default {
             message: null,
             errorMessage: null,
             errors: [],
-            verfiying:true,
+            verfiying: true,
             submitButton: {
                 name: 'Submit',
-                processing: false
-            }
+                processing: false,
+            },
         }
     },
-    beforeCreate () {
+    beforeCreate() {
         // react to route changes...
         // don't forget to call next()
-        this.$store.dispatch('auth/checkToken', this.$route.params.token).then(response => {
-            if(response) {
+        this.$store.dispatch('auth/checkToken', this.$route.params.token).then((response) => {
+            if (response) {
                 this.email = response.email
                 this.token = response.token
                 this.verfiying = false
@@ -105,12 +126,12 @@ export default {
                 // this.$router.replace({ name: 'login' })
                 this.verfiying = false
             }
-        }); 
+        })
     },
     methods: {
         ...mapActions({
             reset: 'auth/reset',
-            checkToken: 'auth/checkToken'
+            checkToken: 'auth/checkToken',
         }),
         submit() {
             this.submitButton.processing = true
@@ -121,8 +142,8 @@ export default {
                     token: this.token,
                     password: this.password,
                 },
-                context: this
-            }).then(response => {
+                context: this,
+            }).then((response) => {
                 this.submitButton.processing = false
                 this.submitButton.name = 'Submit'
                 if (this.errors.root) {
@@ -133,7 +154,7 @@ export default {
                     }, 3000)
                 }
             })
-        }
-    }
+        },
+    },
 }
 </script>

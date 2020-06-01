@@ -16,14 +16,16 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
                                                 <svg class="c-icon">
-                                                    <use xlink:href="@coreui/icons/sprites/free.svg#cil-envelope-closed"></use>
+                                                    <use
+                                                        xlink:href="@coreui/icons/sprites/free.svg#cil-envelope-closed"
+                                                    ></use>
                                                 </svg>
                                             </span>
                                         </div>
-                                        <input 
-                                            class="form-control" 
-                                            type="email" 
-                                            placeholder="Email" 
+                                        <input
+                                            class="form-control"
+                                            type="email"
+                                            placeholder="Email"
                                             required
                                             v-model="email"
                                         />
@@ -33,23 +35,33 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
                                                 <svg class="c-icon">
-                                                    <use xlink:href="@coreui/icons/sprites/free.svg#cil-lock-locked"></use>
+                                                    <use
+                                                        xlink:href="@coreui/icons/sprites/free.svg#cil-lock-locked"
+                                                    ></use>
                                                 </svg>
                                             </span>
                                         </div>
-                                        <input 
-                                            class="form-control" 
-                                            type="password"    
+                                        <input
+                                            class="form-control"
+                                            type="password"
                                             placeholder="Password"
-                                            required 
+                                            required
                                             minlength="8"
                                             v-model="password"
                                         />
-                                        <div v-if="errors.password" class="invalid-feedback">{{ errors.password[0] }}</div>
+                                        <div v-if="errors.password" class="invalid-feedback">
+                                            {{ errors.password[0] }}
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12 text-left">
-                                            <button :disabled="submitButton.processing" class="btn btn-success px-4" type="submit">{{ submitButton.name }}</button>
+                                            <button
+                                                :disabled="submitButton.processing"
+                                                class="btn btn-success px-4"
+                                                type="submit"
+                                            >
+                                                {{ submitButton.name }}
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
@@ -59,8 +71,16 @@
                             <div class="card-body text-center">
                                 <div>
                                     <h2>Kingston Properties Admin Panel</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    <router-link :to="{ name: 'forgot' }" class="btn btn-lg btn-outline-light mt-3" type="button">Forgot Password</router-link>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna aliqua.
+                                    </p>
+                                    <router-link
+                                        :to="{ name: 'forgot' }"
+                                        class="btn btn-lg btn-outline-light mt-3"
+                                        type="button"
+                                        >Forgot Password</router-link
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -72,7 +92,6 @@
 </template>
 
 <script>
-
 import { mapActions } from 'vuex'
 
 export default {
@@ -84,8 +103,8 @@ export default {
             errors: [],
             submitButton: {
                 name: 'Login',
-                processing: false
-            }
+                processing: false,
+            },
         }
     },
     methods: {
@@ -99,9 +118,9 @@ export default {
             this.login({
                 payload: {
                     email: this.email,
-                    password: this.password
+                    password: this.password,
                 },
-                context: this
+                context: this,
             }).then(() => {
                 this.submitButton.processing = false
                 this.submitButton.name = 'Login'
@@ -113,7 +132,7 @@ export default {
                     })
                 }
             })
-        }
-    }
+        },
+    },
 }
 </script>
