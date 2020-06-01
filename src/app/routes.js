@@ -14,16 +14,13 @@ const routes = [
         redirect: '/dashboard',
         name: 'home',
         component: Layout,
-        children: [
-            ...dashboard,
-            ...offers
-        ]
+        children: [...dashboard, ...offers],
     },
     ...auth,
     {
         path: '*',
         name: 'not-found',
-        component: NotFound
+        component: NotFound,
     },
 ]
 
