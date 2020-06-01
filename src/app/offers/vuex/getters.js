@@ -1,4 +1,3 @@
-
-export const offers = state => {
+export const offers = (state) => {
     return state.offers
 }
