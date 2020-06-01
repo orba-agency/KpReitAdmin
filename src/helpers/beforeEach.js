@@ -1,17 +1,22 @@
 import store from '../store'
+import localforage from 'localforage'
 
 const beforeEach = async (to, from, next) => {
-    if(to.name === 'login' && store.getters['auth/isLoggedIn']){
-        next('dashboard')
-    } else  if(to.matched.some(record => record.meta.isAuthenticated)) {
-        if(store.getters['auth/isLoggedIn']) {
+    store
+        .dispatch('auth/checkTokenExists')
+        .then(() => {
             next()
-            return
-        } 
-        next('login')
-    } else {
-        next()
-    }
+        })
+        .catch((error) => {
+            if (to.meta.isAuthenticated) {
+                localforage.setItem('intended', to.name)
+
+                next({ name: 'login' })
+                return
+            }
+
+            next()
+        })
 }
 
 export default beforeEach
