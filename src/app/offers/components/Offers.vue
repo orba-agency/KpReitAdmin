@@ -23,7 +23,14 @@
                     <a-divider type="vertical" />
                     <router-link :to="{ name: 'offer-edit', params: { id: record.key } }">Edit</router-link>
                     <a-divider type="vertical" />
-                    <a>Delete</a>
+                    <a-popconfirm
+                        title="Are you sure？"
+                        ok-text="Yes"
+                        cancel-text="No"
+                        @confirm="deleteOffer(record.key)"
+                    >
+                        <a>Delete</a>
+                    </a-popconfirm>
                 </span>
             </a-table>
         </a-card>
@@ -32,6 +39,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { remove } from 'lodash'
 
 const columns = [
     {
@@ -127,6 +135,9 @@ export default {
             } else {
                 return 'processing'
             }
+        },
+        deleteOffer(id) {
+            console.log(id)
         },
     },
 }
