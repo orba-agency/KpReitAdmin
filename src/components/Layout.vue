@@ -16,22 +16,50 @@
             <div class="logo">
                 <img src="../assets/logo.png" alt="logo" />
             </div>
-            <a-menu mode="inline" :default-selected-keys="['1']">
-                <a-menu-item key="1">
-                    <a-icon type="dashboard" />
-                    <span>Dashboard</span>
+            <a-menu style="margin-top: 30px;" mode="inline" :default-selected-keys="['dashboard_access']">
+                <a-menu-item key="dashboard_access">
+                    <router-link :to="{ name: 'dashboard' }">
+                        <a-icon type="dashboard" />
+                        <span>Dashboard</span>
+                    </router-link>
                 </a-menu-item>
-                <a-menu-item key="2">
-                    <a-icon type="bulb" />
-                    <span>Offers</span>
+                <a-menu-item
+                    key="offer_access"
+                    v-if="
+                        this.$store.state.auth.user.permissions.findIndex(
+                            (permission) => permission === 'offer_access'
+                        ) !== -1
+                    "
+                >
+                    <router-link :to="{ name: 'offers' }">
+                        <a-icon type="bulb" />
+                        <span>Offers</span>
+                    </router-link>
                 </a-menu-item>
-                <a-menu-item key="3">
+                <a-menu-item key="user_access">
                     <a-icon type="team" />
                     <span>Users</span>
                 </a-menu-item>
-                <a-menu-item key="4">
-                    <a-icon type="setting" />
-                    <span>Settings</span>
+                <a-sub-menu key="setting_access">
+                    <span slot="title"><a-icon type="setting" />Settings</span>
+                    <a-menu-item key="1">
+                        option1
+                    </a-menu-item>
+                    <a-menu-item key="2">
+                        option2
+                    </a-menu-item>
+                    <a-menu-item key="3">
+                        option3
+                    </a-menu-item>
+                    <a-menu-item key="permission_access">
+                        <router-link :to="{ name: 'permissions' }">
+                            Permissions
+                        </router-link>
+                    </a-menu-item>
+                </a-sub-menu>
+                <a-menu-item key="report_access">
+                    <a-icon type="line-chart" />
+                    <span>Reports</span>
                 </a-menu-item>
             </a-menu>
         </a-layout-sider>
@@ -96,6 +124,10 @@ export default {
     padding-right: 30px;
 } */
 
+#components-layout-demo-custom-trigger {
+    height: -webkit-fill-available;
+}
+
 #components-layout-demo-custom-trigger .trigger {
     font-size: 18px;
     line-height: 64px;
@@ -133,8 +165,15 @@ export default {
     width: 80px !important;
 }
 
-.ant-menu {
-    background: #2a2f43;
+.ant-menu,
+.ant-menu-submenu > .ant-menu,
+.ant-menu-sub.ant-menu-inline {
+    background-color: #2a2f43 !important;
+    color: #fff !important;
+}
+
+.ant-menu-item > a,
+.ant-menu-submenu-title span {
     color: #fff;
 }
 
