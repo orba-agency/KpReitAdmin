@@ -3,5 +3,6 @@ export default {
         authenticated: false,
         token: null,
         data: null,
+        permissions: [],
     },
 }
