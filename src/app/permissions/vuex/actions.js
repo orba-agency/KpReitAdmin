@@ -1,8 +1,16 @@
 import Repository from '../../../repository'
 
 export const fetchAll = ({ commit }, payload) => {
-    const page = payload.page || 1
-    return Repository.get(`/permissions?page=${page}`).then((response) => {
+    var queryString = ``
+
+    if (payload.all) {
+        queryString = `?all=true`
+    } else {
+        const page = payload.page || 1
+        queryString = `?page=${page}`
+    }
+
+    return Repository.get(`/permissions${queryString}`).then((response) => {
         return response.data
     })
 }
