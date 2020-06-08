@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import auth from './app/auth/vuex'
 import offers from './app/offers/vuex'
 import settings from './app/settings/vuex'
+import permissions from './app/permissions/vuex'
 
 Vue.use(Vuex)
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
         auth,
         offers,
         settings,
+        permissions,
     },
     mutations,
     state,
