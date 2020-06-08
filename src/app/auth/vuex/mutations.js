@@ -15,6 +15,14 @@ export const setAuthenticated = (state, trueOrFalse) => {
     state.user.authenticated = trueOrFalse
 }
 
+export const setPermissions = (state, data) => {
+    state.user.permissions = data
+}
+
 export const setUserData = (state, data) => {
-    state.user.data = data
+    state.user.data = {
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email,
+    }
 }

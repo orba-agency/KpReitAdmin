@@ -1,11 +1,12 @@
 const getOfferState = () => {
     return {
+        id: null,
         prefix: null,
         title: null,
         shortName: null,
         description: null,
         type: null,
-        marketType: "Private",
+        marketType: 'Private',
         status: null,
         openingDate: null,
         closingDate: null,
@@ -20,13 +21,14 @@ const getOfferState = () => {
         link: null,
         researchLink: null,
         createdAt: null,
-        updatedAt: null
+        updatedAt: null,
     }
 }
 
 export default {
     offer: getOfferState(),
     offers: {
-        all: []
-    }
+        all: [],
+        pagination: {},
+    },
 }

@@ -10,7 +10,7 @@ Vue.use(Router)
 const router = new Router({
     // mode: 'history',
     // base: process.env.BASE_URL,
-    routes: routes
+    routes: routes,
 })
 
 router.beforeEach(beforeEach)
