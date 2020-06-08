@@ -33,6 +33,22 @@ export const fetchUser = async ({ commit }) => {
         const response = await Repository.get('/user/me')
         commit('setAuthenticated', true)
         commit('setUserData', response.data)
+
+        if (response.data.roles) {
+            var permissions = []
+
+            response.data.roles.forEach((role) => {
+                permissions = [
+                    ...role.permissions.map((permission) => {
+                        return permission.title
+                    }),
+                ]
+            })
+            commit(
+                'setPermissions',
+                permissions.filter((value, index, arr) => arr.indexOf(value) === index)
+            )
+        }
     } catch (error) {
         return
     }

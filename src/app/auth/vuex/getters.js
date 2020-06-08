@@ -1,7 +1,7 @@
-export const user = state => {
+export const user = (state) => {
     return state.user
 }
 
-export const isLoggedIn = state => {
+export const isLoggedIn = (state) => {
     return !!state.user.authenticated
 }
