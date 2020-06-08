@@ -5,8 +5,9 @@ export default [
         path: '/permissions',
         component: Permissions,
         name: 'permissions',
-        // meta: {
-        //     needsAuth: true,
-        // },
-    }
+        meta: {
+            isAuthenticated: true,
+            permission: 'permission_access',
+        },
+    },
 ]

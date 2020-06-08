@@ -7,6 +7,7 @@ export default [
         name: 'offers',
         meta: {
             isAuthenticated: true,
+            permission: 'offer_access',
         },
     },
     {
@@ -15,6 +16,7 @@ export default [
         name: 'offer-new',
         meta: {
             isAuthenticated: true,
+            permission: 'offer_create',
         },
     },
     {
@@ -23,6 +25,7 @@ export default [
         name: 'offer-edit',
         meta: {
             isAuthenticated: true,
+            permission: 'offer_edit',
         },
     },
     {
@@ -31,6 +34,7 @@ export default [
         name: 'offer-view',
         meta: {
             isAuthenticated: true,
+            permission: 'offer_show',
         },
     },
 ]
