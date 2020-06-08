@@ -372,18 +372,10 @@
     </div>
 </template>
 <script>
-import { upload } from '../../../helpers'
+import { upload, getBase64 } from '../../../helpers'
 import { mapActions, mapGetters } from 'vuex'
 import { isEmpty } from 'lodash'
 
-function getBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onload = () => resolve(reader.result)
-        reader.onerror = (error) => reject(error)
-    })
-}
 export default {
     data() {
         return {
