@@ -36,11 +36,45 @@
                         <span>Offers</span>
                     </router-link>
                 </a-menu-item>
-                <a-menu-item key="user_access">
+
+                <a-menu-item key="client_access">
                     <a-icon type="team" />
+                    <span>Clients</span>
+                </a-menu-item>
+
+                <a-menu-item key="user_access">
+                    <a-icon type="user" />
                     <span>Users</span>
                 </a-menu-item>
-                <a-sub-menu key="setting_access">
+
+                <a-menu-item
+                    key="permission_access"
+                    v-if="
+                        this.$store.state.auth.user.permissions.findIndex(
+                            (permission) => permission === 'permission_access'
+                        ) !== -1
+                    "
+                >
+                    <router-link :to="{ name: 'permissions' }">
+                        <a-icon type="unlock" />
+                        <span>Permissions</span>
+                    </router-link>
+                </a-menu-item>
+
+                <a-menu-item
+                    key="role_access"
+                    v-if="
+                        this.$store.state.auth.user.permissions.findIndex(
+                            (permission) => permission === 'role_access'
+                        ) !== -1
+                    "
+                >
+                    <router-link :to="{ name: 'roles' }">
+                        <a-icon type="solution" />
+                        <span>Roles</span>
+                    </router-link>
+                </a-menu-item>
+                <!-- <a-sub-menu key="setting_access" style="background-color: inherit;">
                     <span slot="title"><a-icon type="setting" />Settings</span>
                     <a-menu-item key="1">
                         option1
@@ -56,7 +90,7 @@
                             Permissions
                         </router-link>
                     </a-menu-item>
-                </a-sub-menu>
+                </a-sub-menu> -->
                 <a-menu-item key="report_access">
                     <a-icon type="line-chart" />
                     <span>Reports</span>
@@ -167,7 +201,8 @@ export default {
 
 .ant-menu,
 .ant-menu-submenu > .ant-menu,
-.ant-menu-sub.ant-menu-inline {
+.ant-menu-sub.ant-menu-inline,
+.ant-menu-sub {
     background-color: #2a2f43 !important;
     color: #fff !important;
 }
@@ -197,6 +232,11 @@ export default {
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
     color: #2a2f43 !important;
     border-right: 3px solid #017477;
+    /* background-color: #e6f7ff; */
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected a {
+    color: #2a2f43 !important;
     /* background-color: #e6f7ff; */
 }
 
