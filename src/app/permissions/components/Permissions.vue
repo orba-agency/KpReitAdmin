@@ -1,15 +1,25 @@
 <template>
-    <div class="main-container">
+    <div>
         <a-card title="Permissions" :bordered="false">
-            <a-table :columns="columns" :data-source="permissions" :loading="loading" @change="handleTableChange">
+            <router-link slot="extra" :to="{ name: 'permission-new' }">New</router-link>
+            <a-table
+                :columns="columns"
+                :data-source="permissions"
+                :pagination="page"
+                :loading="loading"
+                @change="handleTableChange"
+            >
                 <a slot="name" slot-scope="text">{{ text }}</a>
-                <span slot="action">
-                    <a>Show</a>
+                <span slot="action" slot-scope="record">
+                    <router-link :to="{ name: 'permission-edit', params: { id: record.id } }">Edit</router-link>
                     <a-divider type="vertical" />
-                    <a>Edit</a>
-                    <a-divider type="vertical" />
-                    <a-popconfirm title="Are you sure？" ok-text="Yes" cancel-text="No">
-                        <a>Delete</a>
+                    <a-popconfirm
+                        title="Are you sure？"
+                        ok-text="Yes"
+                        cancel-text="No"
+                        @confirm="deletePermission(record.id)"
+                    >
+                        <a href="#">Delete</a>
                     </a-popconfirm>
                 </span>
             </a-table>
@@ -33,12 +43,17 @@ const columns = [
     },
 ]
 
+const key = 'updatable'
+
 export default {
     data() {
         return {
             columns,
             loading: false,
+            pagination: {},
+            page: {},
             permissions: [],
+            error: null,
         }
     },
     created() {
@@ -47,6 +62,7 @@ export default {
     methods: {
         ...mapActions({
             fetchAll: 'permissions/fetchAll',
+            deleteRecord: 'permissions/deleteRecord',
         }),
         handleTableChange(pagination, filters, sorter) {
             const pager = { ...this.pagination }
@@ -64,8 +80,38 @@ export default {
         fetch(param = {}) {
             this.loading = true
             this.fetchAll(param).then((response) => {
+                const page = { ...this.pagination }
+
                 this.loading = false
                 this.permissions = response.data
+
+                page.defaultCurrent = response.current_page
+                page.pageSize = response.per_page
+                page.total = response.total
+                this.page = page
+            })
+        },
+        deletePermission(id) {
+            this.$message.loading({ content: 'Deleting...', key })
+
+            this.deleteRecord({ payload: { id: id }, context: this }).then(() => {
+                if (this.error) {
+                    this.$message.error({ content: this.error, key, duration: 2 })
+                } else {
+                    this.$message.success({
+                        content: 'Deleted successfully!',
+                        key,
+                        duration: 2,
+                    })
+
+                    var index = this.permissions
+                        .map(function (obj) {
+                            return obj.id
+                        })
+                        .indexOf(id)
+
+                    this.permissions.splice(index, 1)
+                }
             })
         },
     },
