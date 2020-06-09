@@ -9,6 +9,7 @@ import users from './users/routes'
 import permissions from './permissions/routes'
 import roles from './roles/routes'
 import currencies from './currencies/routes'
+import brokers from './brokers/routes'
 import reports from './reports/routes'
 
 const routes = [
@@ -17,7 +18,7 @@ const routes = [
         redirect: '/dashboard',
         name: 'home',
         component: Layout,
-        children: [...dashboard, ...offers, ...permissions, ...roles, ...currencies],
+        children: [...dashboard, ...offers, ...permissions, ...roles, ...currencies, ...brokers],
     },
     ...auth,
     {
