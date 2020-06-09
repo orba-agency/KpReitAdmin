@@ -25,7 +25,6 @@ export const fetchRole = ({ commit }, { payload, context }) => {
                 context.form.permissions = response.data.permissions.map((item) => {
                     return item.id
                 })
-                console.log(context)
             }
         })
         .catch((error) => {})
