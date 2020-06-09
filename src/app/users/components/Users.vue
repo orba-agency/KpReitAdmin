@@ -1,13 +1,138 @@
 <template>
     <div>
-        Users
+        <a-card title="Users" :bordered="false">
+            <router-link slot="extra" :to="{ name: 'user-new' }">New</router-link>
+            <a-table
+                :columns="columns"
+                :data-source="users"
+                :pagination="page"
+                :loading="loading"
+                @change="handleTableChange"
+            >
+                <a slot="name" slot-scope="text">{{ text }}</a>
+                <span slot="full-name" slot-scope="record">{{ record.first_name + ' ' + record.last_name }}</span>
+                <span slot="tags" slot-scope="tags">
+                    <a-tag v-for="tag in tags" :key="tag.created_at" :color="'green'">
+                        {{ tag.title.toUpperCase() }}
+                    </a-tag>
+                </span>
+                <span slot="action" slot-scope="record">
+                    <router-link :to="{ name: 'user-view', params: { id: record.id } }">Show</router-link>
+                    <a-divider type="vertical" />
+                    <router-link :to="{ name: 'user-edit', params: { id: record.id } }">Edit</router-link>
+                    <a-divider type="vertical" />
+                    <a-popconfirm
+                        title="Are you sure？"
+                        ok-text="Yes"
+                        cancel-text="No"
+                        @confirm="deleteUser(record.id)"
+                    >
+                        <a href="#">Delete</a>
+                    </a-popconfirm>
+                </span>
+            </a-table>
+        </a-card>
     </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
+const columns = [
+    {
+        title: 'Name',
+        key: 'name',
+        scopedSlots: { customRender: 'full-name' },
+    },
+    {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+    },
+    {
+        title: 'Roles',
+        dataIndex: 'roles',
+        key: 'roles',
+        scopedSlots: { customRender: 'tags' },
+    },
+    {
+        title: 'Action(s)',
+        key: 'action',
+        scopedSlots: { customRender: 'action' },
+    },
+]
+
+const key = 'updatable'
 
 export default {
-    
-}
+    data() {
+        return {
+            columns,
+            loading: false,
+            pagination: {},
+            page: {},
+            users: [],
+            error: null,
+        }
+    },
+    created() {
+        this.fetch()
+    },
+    methods: {
+        ...mapActions({
+            fetchAll: 'users/fetchAll',
+            deleteRecord: 'users/deleteRecord',
+        }),
+        handleTableChange(pagination, filters, sorter) {
+            const pager = { ...this.pagination }
+            pager.current = pagination.current
+            this.pagination = pager
 
+            this.fetch({
+                results: pagination.pageSize,
+                page: pagination.current,
+                sortField: sorter.field,
+                sortOrder: sorter.order,
+                ...filters,
+            })
+        },
+        fetch(param = {}) {
+            this.loading = true
+            this.fetchAll(param).then((response) => {
+                const page = { ...this.pagination }
+
+                this.loading = false
+                this.users = response.data
+
+                page.defaultCurrent = response.current_page
+                page.pageSize = response.per_page
+                page.total = response.total
+                this.page = page
+            })
+        },
+        deleteUser(id) {
+            this.$message.loading({ content: 'Deleting...', key })
+
+            this.deleteRecord({ payload: { id: id }, context: this }).then(() => {
+                if (this.error) {
+                    this.$message.error({ content: this.error, key, duration: 2 })
+                } else {
+                    this.$message.success({
+                        content: 'Deleted successfully!',
+                        key,
+                        duration: 2,
+                    })
+
+                    var index = this.users
+                        .map(function (obj) {
+                            return obj.id
+                        })
+                        .indexOf(id)
+
+                    this.users.splice(index, 1)
+                }
+            })
+        },
+    },
+}
 </script>
