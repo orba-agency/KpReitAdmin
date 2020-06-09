@@ -48,9 +48,18 @@
                     <span>Clients</span>
                 </a-menu-item>
 
-                <a-menu-item key="user_access">
-                    <a-icon type="user" />
-                    <span>Users</span>
+                <a-menu-item
+                    key="user_access"
+                    v-if="
+                        this.$store.state.auth.user.permissions.findIndex(
+                            (permission) => permission === 'user_access'
+                        ) !== -1
+                    "
+                >
+                    <router-link :to="{ name: 'users' }">
+                        <a-icon type="user" />
+                        <span>Users</span>
+                    </router-link>
                 </a-menu-item>
 
                 <a-menu-item key="bank_access">

@@ -18,7 +18,7 @@ const routes = [
         redirect: '/dashboard',
         name: 'home',
         component: Layout,
-        children: [...dashboard, ...offers, ...permissions, ...roles, ...currencies, ...brokers],
+        children: [...dashboard, ...offers, ...permissions, ...roles, ...currencies, ...brokers, ...users],
     },
     ...auth,
     {

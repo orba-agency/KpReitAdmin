@@ -10,19 +10,20 @@ export const fetchAll = ({ commit }, payload) => {
         queryString = `?page=${page}`
     }
 
-    return Repository.get(`/roles${queryString}`).then((response) => {
+    return Repository.get(`/users${queryString}`).then((response) => {
         return response.data
     })
 }
 
-export const fetchRole = ({ commit }, { payload, context }) => {
-    return Repository.get(`/roles/${payload.id}`)
+export const fetchUser = ({ commit }, { payload, context }) => {
+    return Repository.get(`/users/${payload.id}`)
         .then((response) => {
-            context.role = response.data
+            context.user = response.data
 
             if (context.form) {
-                context.form.title = response.data.title
-                context.form.permissions = response.data.permissions.map((item) => {
+                context.form.first_name = response.data.first_name
+                context.form.last_name = response.data.last_name
+                context.form.roles = response.data.roles.map((item) => {
                     return item.id
                 })
             }
@@ -30,11 +31,11 @@ export const fetchRole = ({ commit }, { payload, context }) => {
         .catch((error) => {})
 }
 
-export const updateRole = ({ commit }, { payload, context }) => {
+export const updateUser = ({ commit }, { payload, context }) => {
     context.errors = []
     context.message = null
 
-    return Repository.put(`/roles/${payload.id}`, payload.form)
+    return Repository.put(`/users/${payload.id}`, payload.form)
         .then((response) => {})
         .catch((error) => {
             context.errors = error.response.data.errors || []
@@ -44,18 +45,18 @@ export const updateRole = ({ commit }, { payload, context }) => {
 
 export const deleteRecord = ({ commit }, { payload, context }) => {
     context.error = null
-    return Repository.delete(`/roles/${payload.id}`)
+    return Repository.delete(`/users/${payload.id}`)
         .then(() => {})
         .catch((error) => {
             context.error = error.response.data.message
         })
 }
 
-export const createRole = ({ commit }, { payload, context }) => {
+export const createUser = ({ commit }, { payload, context }) => {
     context.errors = []
     context.message = null
 
-    return Repository.post('/roles', payload)
+    return Repository.post('/users', payload)
         .then((response) => {})
         .catch((error) => {
             context.errors = error.response.data.errors || []
