@@ -47,6 +47,21 @@
                     <span>Users</span>
                 </a-menu-item>
 
+                <a-menu-item key="bank_access">
+                    <a-icon type="bank" />
+                    <span>Banks</span>
+                </a-menu-item>
+
+                <a-menu-item key="broker_access">
+                    <a-icon type="bold" />
+                    <span>Brokers</span>
+                </a-menu-item>
+
+                <a-menu-item key="currency_access">
+                    <a-icon type="dollar" />
+                    <span>Currencies</span>
+                </a-menu-item>
+
                 <a-menu-item
                     key="permission_access"
                     v-if="
