@@ -6,6 +6,7 @@ import offers from './app/offers/vuex'
 import permissions from './app/permissions/vuex'
 import roles from './app/roles/vuex'
 import currencies from './app/currencies/vuex'
+import brokers from './app/brokers/vuex'
 
 Vue.use(Vuex)
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
         permissions,
         roles,
         currencies,
+        brokers,
     },
     mutations,
     state,
