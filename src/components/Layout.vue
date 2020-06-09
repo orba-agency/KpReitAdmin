@@ -58,9 +58,18 @@
                     <span>Banks</span>
                 </a-menu-item>
 
-                <a-menu-item key="broker_access">
-                    <a-icon type="bold" />
-                    <span>Brokers</span>
+                <a-menu-item
+                    key="broker_access"
+                    v-if="
+                        this.$store.state.auth.user.permissions.findIndex(
+                            (permission) => permission === 'broker_access'
+                        ) !== -1
+                    "
+                >
+                    <router-link :to="{ name: 'brokers' }">
+                        <a-icon type="bold" />
+                        <span>Brokers</span>
+                    </router-link>
                 </a-menu-item>
 
                 <a-menu-item
