@@ -451,8 +451,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            getAllBrokers: 'settings/getAllBrokers',
-            getAllCurrencies: 'settings/getAllCurrencies',
+            // getAllBrokers: 'settings/getAllBrokers',
+            // getAllCurrencies: 'settings/getAllCurrencies',
         }),
 
         brokers: function () {
@@ -477,13 +477,12 @@ export default {
         },
     },
     created() {
-        if (isEmpty(this.brokers)) {
-            this.fetchAllBrokers().then((response) => {})
-        }
-
-        if (isEmpty(this.currencies)) {
-            this.fetchAllCurrencies().then((response) => {})
-        }
+        // if (isEmpty(this.brokers)) {
+        //     this.fetchAllBrokers().then((response) => {})
+        // }
+        // if (isEmpty(this.currencies)) {
+        //     this.fetchAllCurrencies().then((response) => {})
+        // }
 
         this.fetchOffer({
             payload: {
