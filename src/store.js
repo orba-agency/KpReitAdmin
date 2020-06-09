@@ -7,6 +7,7 @@ import permissions from './app/permissions/vuex'
 import roles from './app/roles/vuex'
 import currencies from './app/currencies/vuex'
 import brokers from './app/brokers/vuex'
+import users from './app/users/vuex'
 
 Vue.use(Vuex)
 
@@ -28,6 +29,7 @@ export default new Vuex.Store({
         roles,
         currencies,
         brokers,
+        users,
     },
     mutations,
     state,
