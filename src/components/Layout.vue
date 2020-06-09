@@ -23,6 +23,12 @@
                         <span>Dashboard</span>
                     </router-link>
                 </a-menu-item>
+
+                <a-menu-item key="application_access">
+                    <a-icon type="schedule" />
+                    <span>Applications</span>
+                </a-menu-item>
+
                 <a-menu-item
                     key="offer_access"
                     v-if="
@@ -45,6 +51,30 @@
                 <a-menu-item key="user_access">
                     <a-icon type="user" />
                     <span>Users</span>
+                </a-menu-item>
+
+                <a-menu-item key="bank_access">
+                    <a-icon type="bank" />
+                    <span>Banks</span>
+                </a-menu-item>
+
+                <a-menu-item key="broker_access">
+                    <a-icon type="bold" />
+                    <span>Brokers</span>
+                </a-menu-item>
+
+                <a-menu-item
+                    key="currency_access"
+                    v-if="
+                        this.$store.state.auth.user.permissions.findIndex(
+                            (permission) => permission === 'currency_access'
+                        ) !== -1
+                    "
+                >
+                    <router-link :to="{ name: 'currencies' }">
+                        <a-icon type="dollar" />
+                        <span>Currencies</span>
+                    </router-link>
                 </a-menu-item>
 
                 <a-menu-item
