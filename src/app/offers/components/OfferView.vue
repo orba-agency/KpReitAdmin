@@ -9,7 +9,7 @@
                     <OfferFees v-if="offer.fees" v-bind:fees="offer.fees" />
                 </a-tab-pane>
                 <a-tab-pane key="3" tab="Gallery">
-                    <OfferGallery v-if="offer.galleries" v-bind:galleries="offer.galleries" />
+                    <OfferGallery v-if="offer.galleries" v-bind:galleries="galleries" />
                 </a-tab-pane>
                 <a-tab-pane key="4" tab="Videos">
                     Content of Tab Pane 4
@@ -34,10 +34,24 @@ export default {
     data() {
         return {
             offer: {},
+            galleries: [],
             state: {
                 loaded: false,
             },
         }
+    },
+    watch: {
+        offer: function (newData) {
+            this.galleries = this.offer.galleries.map((item) => {
+                return {
+                    gallery_id: item.id,
+                    uid: item.id,
+                    name: Date.now().toString(),
+                    status: 'done',
+                    url: item.url,
+                }
+            })
+        },
     },
     created() {
         this.fetchOffer({
