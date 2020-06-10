@@ -19,10 +19,10 @@
             {{ offer.broker.name }}
         </a-descriptions-item>
         <a-descriptions-item label="Currency" :span="3">
-            {{ offer.currency.name }}
+            {{ offer.currency.name }} - {{ offer.currency.code }}
         </a-descriptions-item>
         <a-descriptions-item label="Unit Price" :span="3">
-            {{ offer.unit_price }}
+            {{ Number(offer.unit_price).toLocaleString() }}
         </a-descriptions-item>
         <a-descriptions-item label="Status" :span="3">
             <a-badge
@@ -38,13 +38,13 @@
             {{ offer.type }}
         </a-descriptions-item>
         <a-descriptions-item label="Max. Invest." :span="3">
-            {{ offer.maximum }}
+            {{ Number(offer.maximum).toLocaleString() }}
         </a-descriptions-item>
         <a-descriptions-item label="Min. Invest." :span="3">
-            {{ offer.minimum }}
+            {{ Number(offer.minimum).toLocaleString() }}
         </a-descriptions-item>
         <a-descriptions-item label="Increment Size" :span="3">
-            {{ offer.increment_size }}
+            {{ Number(offer.increment_size).toLocaleString() }}
         </a-descriptions-item>
         <a-descriptions-item label="Closing Date" :span="3">
             {{ offer.closing_date }}
