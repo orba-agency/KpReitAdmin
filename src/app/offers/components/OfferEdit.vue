@@ -9,7 +9,7 @@
                 <br />
                 <br />
             </a-row>
-            <a-form-model ref="ruleForm" :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
+            <a-form-model ref="ruleForm" :model="offer" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
                 <a-form-model-item label="Upload Logo" prop="logo">
                     <a-upload
                         name="logo"
@@ -77,7 +77,7 @@
                     :help="errors.broker_id ? errors.broker_id[0] : null"
                 >
                     <a-select v-model="offer.broker_id" placeholder="Please select broker">
-                        <a-select-option v-for="(value, index) in brokers" :key="index" :value="value.id">
+                        <a-select-option v-for="value in brokers" :key="value.created_at" :value="value.id">
                             {{ value.name }}
                         </a-select-option>
                     </a-select>
@@ -156,11 +156,9 @@
                     :validate-status="errors.unit_price ? 'error' : ''"
                     :help="errors.unit_price ? errors.unit_price[0] : null"
                 >
-                    <a-input
+                    <a-input-number
                         v-model="offer.unit_price"
-                        :prefix="currency.symbol"
-                        :suffix="currency.code"
-                        :formatter="(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :formatter="(value) => `${currency.symbol} ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
                         :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
                         style="width: 30%;"
                     />
@@ -172,11 +170,9 @@
                     :validate-status="errors.minimum ? 'error' : ''"
                     :help="errors.minimum ? errors.minimum[0] : null"
                 >
-                    <a-input
+                    <a-input-number
                         v-model="offer.minimum"
-                        :prefix="currency.symbol"
-                        :suffix="currency.code"
-                        :formatter="(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :formatter="(value) => `${currency.symbol} ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
                         :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
                         style="width: 30%;"
                     />
@@ -188,11 +184,9 @@
                     :validate-status="errors.maximum ? 'error' : ''"
                     :help="errors.maximum ? errors.maximum[0] : null"
                 >
-                    <a-input
+                    <a-input-number
                         v-model="offer.maximum"
-                        :prefix="currency.symbol"
-                        :suffix="currency.code"
-                        :formatter="(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :formatter="(value) => `${currency.symbol} ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
                         :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
                         style="width: 30%;"
                     />
@@ -204,7 +198,12 @@
                     :validate-status="errors.available ? 'error' : ''"
                     :help="errors.available ? errors.available[0] : null"
                 >
-                    <a-input-number v-model="offer.available" style="width: 30%;" />
+                    <a-input-number
+                        v-model="offer.available"
+                        :formatter="(value) => `${currency.symbol} ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+                        style="width: 30%;"
+                    />
                 </a-form-model-item>
 
                 <a-form-model-item
@@ -213,7 +212,12 @@
                     :validate-status="errors.increment_size ? 'error' : ''"
                     :help="errors.increment_size ? errors.increment_size[0] : null"
                 >
-                    <a-input-number v-model="offer.increment_size" style="width: 30%;" />
+                    <a-input-number
+                        v-model="offer.increment_size"
+                        :formatter="(value) => `${currency.symbol} ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+                        style="width: 30%;"
+                    />
                 </a-form-model-item>
 
                 <a-form-model-item
@@ -244,7 +248,7 @@
                     <a-switch v-model="offer.published" />
                 </a-form-model-item>
 
-                <a-form-model-item label="Gallery">
+                <!-- <a-form-model-item label="Gallery">
                     <a-upload
                         list-type="picture-card"
                         :file-list="fileList"
@@ -262,7 +266,7 @@
                     <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
                         <img alt="example" style="width: 100%;" :src="previewImage" />
                     </a-modal>
-                </a-form-model-item>
+                </a-form-model-item> -->
 
                 <a-form-model-item label="Fee">
                     <a-button type="dashed" style="width: 60%;" @click="addFee"> <a-icon type="plus" /> Add </a-button>
@@ -389,13 +393,15 @@ export default {
             fileList: [],
             message: null,
             errors: [],
+            brokers: [],
+            currencies: [],
             submitButton: {
-                name: 'Create',
+                name: 'Save',
                 processing: false,
             },
             currency: {
-                code: null,
-                symbol: null,
+                code: '',
+                symbol: '',
             },
             offer: {
                 prefix: null,
@@ -416,7 +422,7 @@ export default {
                 published: false,
                 logo_upload_id: null,
                 fees: [],
-                galleries: [],
+                // galleries: [],
                 videos: [],
             },
             rules: {
@@ -449,20 +455,6 @@ export default {
             },
         }
     },
-    computed: {
-        ...mapGetters({
-            // getAllBrokers: 'settings/getAllBrokers',
-            // getAllCurrencies: 'settings/getAllCurrencies',
-        }),
-
-        brokers: function () {
-            return this.getAllBrokers
-        },
-
-        currencies: function () {
-            return this.getAllCurrencies
-        },
-    },
     watch: {
         offer: function (newQuestion, oldQuestion) {
             if (!isEmpty(this.offer.logo)) {
@@ -474,31 +466,42 @@ export default {
                     return { uid: gal.id, name: 'image.png', status: 'done', url: gal.url }
                 })
             }
+
+            if (!isEmpty(this.currencies)) {
+                this.handleCurrency(this.offer.currency_id)
+            }
+
+            this.offer.published = this.offer.published ? true : false
         },
     },
     created() {
-        // if (isEmpty(this.brokers)) {
-        //     this.fetchAllBrokers().then((response) => {})
-        // }
-        // if (isEmpty(this.currencies)) {
-        //     this.fetchAllCurrencies().then((response) => {})
-        // }
+        if (isEmpty(this.brokers)) {
+            this.fetchAllBrokers({ all: true }).then((response) => {
+                this.brokers = response
+            })
+        }
+        if (isEmpty(this.currencies)) {
+            this.fetchAllCurrencies({ all: true }).then((response) => {
+                this.currencies = response
+                if (!isEmpty(this.offer.currency_id)) {
+                    this.handleCurrency(this.offer.currency_id)
+                }
+            })
+        }
 
         this.fetchOffer({
             payload: {
                 id: this.$route.params.id,
             },
             context: this,
-        }).then(() => {
-            this.state.loaded = true
-        })
+        }).then(() => {})
     },
     methods: {
         ...mapActions({
-            createOffer: 'offers/createOffer',
+            updateOffer: 'offers/updateOffer',
             fetchOffer: 'offers/fetchOffer',
-            fetchAllBrokers: 'settings/fetchAllBrokers',
-            fetchAllCurrencies: 'settings/fetchAllCurrencies',
+            fetchAllBrokers: 'brokers/fetchAll',
+            fetchAllCurrencies: 'currencies/fetchAll',
         }),
         handleLogoChange(info) {
             if (info.file.status === 'uploading') {
@@ -529,60 +532,63 @@ export default {
                 }
             })
         },
-        handleGalleryChange(info) {
-            console.log(info)
-            this.fileList = info.fileList
-            this.offer.galleries = info.fileList.map((value) => {
-                return {
-                    upload_id: value.xhr.id,
-                    url: value.xhr.url,
-                }
-            })
-        },
-        handleCancel() {
-            this.previewVisible = false
-        },
-        async handleGalleryPreview(file) {
-            if (!file.url && !file.preview) {
-                file.preview = await getBase64(file.originFileObj)
-            }
-            this.previewImage = file.url || file.preview
-            this.previewVisible = true
-        },
-        handleUpload() {
-            console.log('upload')
-        },
+        // handleGalleryChange(info) {
+        //     console.log(info)
+        //     this.fileList = info.fileList
+        //     this.offer.galleries = info.fileList.map((value) => {
+        //         return {
+        //             upload_id: value.xhr.id,
+        //             url: value.xhr.url,
+        //         }
+        //     })
+        // },
+        // handleCancel() {
+        //     this.previewVisible = false
+        // },
+        // async handleGalleryPreview(file) {
+        //     if (!file.url && !file.preview) {
+        //         file.preview = await getBase64(file.originFileObj)
+        //     }
+        //     this.previewImage = file.url || file.preview
+        //     this.previewVisible = true
+        // },
+        // handleUpload() {
+        //     console.log('upload')
+        // },
         handleCurrency(value) {
             this.currencies.map((cur) => {
                 if (value === cur.id) this.currency = cur
             })
+            console.log(value)
         },
         onSubmit() {
-            // this.$refs.ruleForm .validate((valid) => {
-            //     if (valid) {
-            // alert('submit!')
-            this.submitButton.processing = true
-            this.submitButton.name = 'Processing...'
+            this.$refs.ruleForm.validate((valid) => {
+                if (valid) {
+                    this.submitButton.processing = true
+                    this.submitButton.name = 'Processing...'
 
-            this.createOffer({
-                payload: this.form,
-                context: this,
-            }).then((response) => {
-                console.log(response)
-                this.submitButton.processing = false
-                this.submitButton.name = 'Create'
+                    this.updateOffer({
+                        payload: {
+                            id: this.$route.params.id,
+                            form: this.offer,
+                        },
+                        context: this,
+                    }).then((response) => {
+                        console.log(response)
+                        this.submitButton.processing = false
+                        this.submitButton.name = 'Save'
 
-                if (this.errors.root) {
-                    return
+                        if (this.errors.root) {
+                            return
+                        } else {
+                            // Redirect to new offer view
+                        }
+                    })
                 } else {
-                    // Redirect to new offer view
+                    console.log('error submit!!')
+                    return false
                 }
             })
-            // } else {
-            //     console.log('error submit!!')
-            //     return false
-            // }
-            // })
         },
         removeVideo(item) {
             let index = this.offer.videos.indexOf(item)
