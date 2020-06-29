@@ -28,6 +28,7 @@
                         @confirm="deleteUser(record.id)"
                     >
                         <a href="#">Delete</a>
+                        <!-- v-if="this.$store.getters['auth/user'].data.id !== record.id" -->
                     </a-popconfirm>
                 </span>
             </a-table>
