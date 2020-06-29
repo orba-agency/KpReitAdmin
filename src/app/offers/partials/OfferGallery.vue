@@ -92,13 +92,16 @@ export default {
                         this.$message.error({ content: this.error, key, duration: 2 })
                     } else {
                         console.log('response', resp)
-                        this.galleries = resp.galleries.map((item) => {
-                            return {
-                                gallery_id: item.id,
-                                uid: item.id,
-                                name: Date.now().toString(),
-                                status: 'done',
-                                url: item.url,
+                        this.galleries = []
+                        resp.galleries.forEach((item) => {
+                            if (item.type === 'Photo') {
+                                this.galleries.push({
+                                    gallery_id: item.id,
+                                    uid: item.id,
+                                    name: Date.now().toString(),
+                                    status: 'done',
+                                    url: item.url,
+                                })
                             }
                         })
                         this.$message.success({
