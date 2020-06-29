@@ -1,5 +1,10 @@
 import { Permissions, PermissionNew, PermissionEdit } from '../components'
 
+const mainBC = {
+    path: '/permissions',
+    breadcrumbName: 'Permissions',
+}
+
 export default [
     {
         path: '/permissions',
@@ -8,6 +13,7 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'permission_access',
+            breadcrumb: [mainBC],
         },
     },
     {
@@ -17,6 +23,13 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'permission_create',
+            breadcrumb: [
+                mainBC,
+                {
+                    path: '/permission-new',
+                    breadcrumbName: 'New Permission',
+                },
+            ],
         },
     },
     {
@@ -26,6 +39,13 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'permission_edit',
+            breadcrumb: [
+                mainBC,
+                {
+                    path: '/permissions/:id/edit',
+                    breadcrumbName: 'Edit Permission',
+                },
+            ],
         },
     },
 ]

@@ -1,5 +1,10 @@
 import { Users, UserNew, UserView, UserEdit } from '../components'
 
+const mainBC = {
+    path: '/users',
+    breadcrumbName: 'Users',
+}
+
 export default [
     {
         path: '/users',
@@ -8,6 +13,7 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'user_access',
+            breadcrumb: [mainBC],
         },
     },
     {
@@ -17,6 +23,13 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'user_create',
+            breadcrumb: [
+                mainBC,
+                {
+                    path: '/user-new',
+                    breadcrumbName: 'New User',
+                },
+            ],
         },
     },
     {
@@ -26,6 +39,13 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'user_edit',
+            breadcrumb: [
+                mainBC,
+                {
+                    path: '/users/:id/edit',
+                    breadcrumbName: 'Edit User',
+                },
+            ],
         },
     },
     {
@@ -35,6 +55,13 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'user_show',
+            breadcrumb: [
+                mainBC,
+                {
+                    path: '/users/:id',
+                    breadcrumbName: 'View User',
+                },
+            ],
         },
     },
 ]

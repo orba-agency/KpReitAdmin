@@ -1,5 +1,10 @@
 import { Currencies, CurrencyNew, CurrencyView, CurrencyEdit } from '../components'
 
+const mainBC = {
+    path: '/currencies',
+    breadcrumbName: 'Currencies',
+}
+
 export default [
     {
         path: '/currencies',
@@ -8,6 +13,7 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'currency_access',
+            breadcrumb: [mainBC],
         },
     },
     {
@@ -17,6 +23,13 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'currency_create',
+            breadcrumb: [
+                mainBC,
+                {
+                    path: '/currency-new',
+                    breadcrumbName: 'New Currency',
+                },
+            ],
         },
     },
     {
@@ -26,6 +39,13 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'currency_edit',
+            breadcrumb: [
+                mainBC,
+                {
+                    path: '/currency-edit',
+                    breadcrumbName: 'Edit Currency',
+                },
+            ],
         },
     },
     {
@@ -35,6 +55,13 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'currency_show',
+            breadcrumb: [
+                mainBC,
+                {
+                    path: '/currency-view',
+                    breadcrumbName: 'View Currency',
+                },
+            ],
         },
     },
 ]

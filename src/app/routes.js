@@ -17,6 +17,7 @@ const routes = [
         path: '/',
         redirect: '/dashboard',
         name: 'home',
+        breadcrumbName: 'Home',
         component: Layout,
         children: [...dashboard, ...offers, ...permissions, ...roles, ...currencies, ...brokers, ...users],
     },

@@ -1,5 +1,10 @@
 import { Roles, RoleNew, RoleView, RoleEdit } from '../components'
 
+const mainBC = {
+    path: '/roles',
+    breadcrumbName: 'Roles',
+}
+
 export default [
     {
         path: '/roles',
@@ -8,6 +13,7 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'role_access',
+            breadcrumb: [mainBC],
         },
     },
     {
@@ -17,6 +23,13 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'role_create',
+            breadcrumb: [
+                mainBC,
+                {
+                    path: '/role-new',
+                    breadcrumbName: 'New Role',
+                },
+            ],
         },
     },
     {
@@ -26,6 +39,13 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'role_edit',
+            breadcrumb: [
+                mainBC,
+                {
+                    path: '/roles/:id/edit',
+                    breadcrumbName: 'Edit Role',
+                },
+            ],
         },
     },
     {
@@ -35,6 +55,13 @@ export default [
         meta: {
             isAuthenticated: true,
             permission: 'role_show',
+            breadcrumb: [
+                mainBC,
+                {
+                    path: '/roles/:id',
+                    breadcrumbName: 'View Role',
+                },
+            ],
         },
     },
 ]
