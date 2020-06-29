@@ -3,6 +3,9 @@ import localforage from 'localforage'
 import { isEmpty } from 'lodash'
 
 const beforeEach = async (to, from, next) => {
+    var breadcrumb = to.meta.breadcrumb ? to.meta.breadcrumb : []
+    store.commit('setBreadcrumbs', breadcrumb)
+
     store
         .dispatch('auth/checkTokenExists')
         .then(() => {
