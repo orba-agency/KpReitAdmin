@@ -155,15 +155,26 @@
                 <a-dropdown v-model="visible">
                     <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
                         <a-avatar icon="user" />
-                        Romario Hall
                     </a>
-                    <a-menu slot="overlay" @click="handleMenuClick">
-                        <a-menu-item key="1">
+                    <a-menu slot="overlay">
+                        <a-menu-item key="1" @click="signout">
                             Logout
                         </a-menu-item>
                     </a-menu>
                 </a-dropdown>
             </a-layout-header>
+            <br />
+            <a-breadcrumb :routes="this.$store.getters['getBreadcrumbs']" style="margin-left: 24px;">
+                <template slot="itemRender" slot-scope="{ route, params, routes, paths }">
+                    <span v-if="routes.indexOf(route) === routes.length - 1">
+                        {{ route.breadcrumbName }}
+                    </span>
+                    <router-link v-else :to="`${basePath}/${paths.join('/')}`">
+                        <span v-if="route.breadcrumbName !== 'Home'">{{ route.breadcrumbName }}</span>
+                        <a-icon v-else type="home" />
+                    </router-link>
+                </template>
+            </a-breadcrumb>
             <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
                 <router-view></router-view>
             </a-layout-content>
@@ -178,6 +189,8 @@
 import Header from './Header'
 import Navigation from './Navigation'
 import Footer from './Footer'
+import { routes } from '../app/index'
+import { mapActions } from 'vuex'
 
 export default {
     name: 'Layout',
@@ -187,13 +200,47 @@ export default {
         return {
             collapsed: false,
             visible: false,
+            routes: [
+                {
+                    path: '/dashboard',
+                    breadcrumbName: 'Home',
+                    children: [
+                        {
+                            path: '/dashboard',
+                            breadcrumbName: 'Dashboard',
+                        },
+                        {
+                            path: '/layout',
+                            breadcrumbName: 'Layout',
+                        },
+                        {
+                            path: '/navigation',
+                            breadcrumbName: 'Navigation',
+                        },
+                    ],
+                },
+                ...this.$route.meta.breadcrumb,
+            ],
+            basePath: '',
         }
     },
     methods: {
+        ...mapActions({
+            logout: 'auth/logout',
+        }),
         handleMenuClick(e) {
             if (e.key === '3') {
                 this.visible = false
             }
+        },
+        signout() {
+            this.logout()
+                .then(() => {
+                    this.$router.replace({ name: 'login' })
+                })
+                .catch(() => {
+                    this.$router.replace({ name: 'login' })
+                })
         },
     },
 }
@@ -290,5 +337,12 @@ export default {
 
 .ant-layout-header {
     z-index: 999;
+}
+
+.ant-layout-header .ant-dropdown-link {
+    float: right;
+    margin-left: auto;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 </style>
