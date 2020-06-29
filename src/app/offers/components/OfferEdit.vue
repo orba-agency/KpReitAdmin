@@ -342,8 +342,8 @@
                 </a-form-model-item>
 
                 <a-form-model-item
-                    v-for="(video, index) in offer.videos"
-                    :key="video.key"
+                    v-for="(gallery, index) in offer.galleries"
+                    :key="gallery.key"
                     :prop="'videos.' + index + '.url'"
                     class="item-margin"
                     :rules="{
@@ -352,18 +352,14 @@
                         trigger: 'blur',
                     }"
                 >
-                    <a-input
-                        v-model="video.url"
-                        placeholder="Please input video link"
-                        style="width: 60%; margin-right: 8px;"
-                    />
-                    <a-icon
-                        v-if="offer.videos.length > 1"
-                        class="dynamic-delete-button"
-                        type="minus-circle-o"
-                        :disabled="offer.videos.length === 1"
-                        @click="removeVideo(video)"
-                    />
+                    <div v-if="gallery.type === 'Video'">
+                        <a-input
+                            v-model="gallery.url"
+                            placeholder="Please input video link"
+                            style="width: 60%; margin-right: 8px;"
+                        />
+                        <a-icon class="dynamic-delete-button" type="minus-circle-o" @click="removeVideo(gallery)" />
+                    </div>
                 </a-form-model-item>
 
                 <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
@@ -422,8 +418,7 @@ export default {
                 published: false,
                 logo_upload_id: null,
                 fees: [],
-                // galleries: [],
-                videos: [],
+                galleries: [],
             },
             rules: {
                 // logo: [{ required: true, message: 'Please add a logo', trigger: 'change' }],
@@ -462,9 +457,16 @@ export default {
             }
 
             if (!isEmpty(this.offer.galleries)) {
-                this.fileList = this.offer.galleries.map((gal) => {
-                    return { uid: gal.id, name: 'image.png', status: 'done', url: gal.url }
+                // this.fileList = this.offer.galleries.map((gal) => {
+                //     return { uid: gal.id, name: 'image.png', status: 'done', url: gal.url }
+                // })
+                var videos = []
+                this.offer.galleries.forEach((item) => {
+                    if (item.type === 'Video') {
+                        videos.push(item)
+                    }
                 })
+                this.offer.galleries = videos
             }
 
             if (!isEmpty(this.currencies)) {
@@ -562,44 +564,47 @@ export default {
             console.log(value)
         },
         onSubmit() {
-            this.$refs.ruleForm.validate((valid) => {
-                if (valid) {
-                    this.submitButton.processing = true
-                    this.submitButton.name = 'Processing...'
+            // this.$refs.ruleForm.validate((valid) => {
+            //     if (valid) {
+            this.submitButton.processing = true
+            this.submitButton.name = 'Processing...'
 
-                    this.updateOffer({
-                        payload: {
-                            id: this.$route.params.id,
-                            form: this.offer,
-                        },
-                        context: this,
-                    }).then((response) => {
-                        console.log(response)
-                        this.submitButton.processing = false
-                        this.submitButton.name = 'Save'
+            this.updateOffer({
+                payload: {
+                    id: this.$route.params.id,
+                    form: this.offer,
+                },
+                context: this,
+            }).then((response) => {
+                console.log(response)
+                this.submitButton.processing = false
+                this.submitButton.name = 'Save'
 
-                        if (this.errors.root) {
-                            return
-                        } else {
-                            // Redirect to new offer view
-                        }
-                    })
+                if (this.errors.root) {
+                    return
                 } else {
-                    console.log('error submit!!')
-                    return false
+                    // Redirect to new offer view
+                    this.$router.replace({ name: 'offer-view', id: this.$route.params.id })
                 }
             })
+            // } else {
+            //     console.log('error submit!!')
+            //     return false
+            // }
+            // })
+            console.log('end')
         },
         removeVideo(item) {
-            let index = this.offer.videos.indexOf(item)
+            let index = this.offer.galleries.indexOf(item)
             if (index !== -1) {
-                this.offer.videos.splice(index, 1)
+                this.offer.galleries.splice(index, 1)
             }
         },
         addVideo() {
-            this.offer.videos.push({
+            this.offer.galleries.push({
                 url: null,
                 key: Date.now(),
+                type: 'Video',
             })
         },
         removeFee(item) {
