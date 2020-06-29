@@ -1,5 +1,5 @@
 <template>
-    <a-table :columns="columns" :data-source="fees">
+    <a-table :columns="columns" :data-source="fees" rowKey="{record => record.id}">
         <a slot="name" slot-scope="text">{{ text }}</a>
     </a-table>
 </template>
@@ -25,7 +25,7 @@ const columns = [
 
 export default {
     props: {
-        fees: [],
+        fees: Array,
     },
     data() {
         return {

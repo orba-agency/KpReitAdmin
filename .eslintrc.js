@@ -24,6 +24,7 @@ module.exports = {
         'no-console': 'off',
         'no-debugger': 'off',
         'no-unused-vars': 'off',
+        "vue/no-use-v-if-with-v-for": "off",
         'prettier/prettier': [
             'error',
             {

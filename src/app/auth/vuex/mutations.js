@@ -21,6 +21,7 @@ export const setPermissions = (state, data) => {
 
 export const setUserData = (state, data) => {
     state.user.data = {
+        id: data.id,
         first_name: data.first_name,
         last_name: data.last_name,
         email: data.email,

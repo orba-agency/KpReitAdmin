@@ -338,8 +338,8 @@
                 </a-form-model-item>
 
                 <a-form-model-item
-                    v-for="(video, index) in form.videos"
-                    :key="video.key"
+                    v-for="(gallery, index) in form.galleries"
+                    :key="gallery.key"
                     :prop="'videos.' + index + '.url'"
                     class="item-margin"
                     :rules="{
@@ -348,18 +348,20 @@
                         trigger: 'blur',
                     }"
                 >
-                    <a-input
-                        v-model="video.url"
-                        placeholder="Please input video link"
-                        style="width: 60%; margin-right: 8px;"
-                    />
-                    <a-icon
-                        v-if="form.videos.length > 1"
-                        class="dynamic-delete-button"
-                        type="minus-circle-o"
-                        :disabled="form.videos.length === 1"
-                        @click="removeVideo(video)"
-                    />
+                    <div v-if="gallery.type === 'Video'">
+                        <a-input
+                            v-model="gallery.url"
+                            placeholder="Please input video link"
+                            style="width: 60%; margin-right: 8px;"
+                        />
+                        <a-icon
+                            v-if="form.videos.length > 1"
+                            class="dynamic-delete-button"
+                            type="minus-circle-o"
+                            :disabled="form.videos.length === 1"
+                            @click="removeVideo(video)"
+                        />
+                    </div>
                 </a-form-model-item>
 
                 <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
@@ -389,6 +391,8 @@ export default {
             fileList: [],
             message: null,
             errors: [],
+            brokers: [],
+            currencies: [],
             submitButton: {
                 name: 'Create',
                 processing: false,
@@ -449,33 +453,26 @@ export default {
             },
         }
     },
-    computed: {
-        ...mapGetters({
-            // getAllBrokers: 'settings/getAllBrokers',
-            getAllCurrencies: 'currencies/fetchAll',
-        }),
-
-        brokers: function () {
-            return this.getAllBrokers
-        },
-
-        currencies: function () {
-            return this.getAllCurrencies
-        },
-    },
     created() {
-        // if (isEmpty(this.brokers)) {
-        //     this.fetchAllBrokers().then((response) => {})
-        // }
-        // if (isEmpty(this.currencies)) {
-        //     this.fetchAllCurrencies().then((response) => {})
-        // }
+        if (isEmpty(this.brokers)) {
+            this.fetchAllBrokers({ all: true }).then((response) => {
+                this.brokers = response
+            })
+        }
+        if (isEmpty(this.currencies)) {
+            this.fetchAllCurrencies({ all: true }).then((response) => {
+                this.currencies = response
+                if (!isEmpty(this.offer.currency_id)) {
+                    this.handleCurrency(this.offer.currency_id)
+                }
+            })
+        }
     },
     methods: {
         ...mapActions({
             createOffer: 'offers/createOffer',
-            fetchAllBrokers: 'settings/fetchAllBrokers',
-            fetchAllCurrencies: 'settings/fetchAllCurrencies',
+            fetchAllBrokers: 'brokers/fetchAll',
+            fetchAllCurrencies: 'currencies/fetchAll',
         }),
         handleLogoChange(info) {
             if (info.file.status === 'uploading') {
@@ -513,6 +510,7 @@ export default {
                 return {
                     upload_id: value.xhr.id,
                     url: value.xhr.url,
+                    type: 'Photo',
                 }
             })
         },
@@ -562,15 +560,16 @@ export default {
             // })
         },
         removeVideo(item) {
-            let index = this.form.videos.indexOf(item)
+            let index = this.form.galleries.indexOf(item)
             if (index !== -1) {
-                this.form.videos.splice(index, 1)
+                this.form.galleries.splice(index, 1)
             }
         },
         addVideo() {
-            this.form.videos.push({
+            this.form.galleries.push({
                 url: null,
                 key: Date.now(),
+                type: 'Video',
             })
         },
         removeFee(item) {
