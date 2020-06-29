@@ -15,10 +15,41 @@ const mutations = {
     set(state, [variable, value]) {
         state[variable] = value
     },
+
+    setBreadcrumbs(state, params) {
+        state.breadcrumbs = [
+            {
+                // path: '/dashboard',
+                breadcrumbName: 'Home',
+                children: [
+                    {
+                        path: '/dashboard',
+                        breadcrumbName: 'Dashboard',
+                    },
+                    {
+                        path: '/layout',
+                        breadcrumbName: 'Layout',
+                    },
+                    {
+                        path: '/navigation',
+                        breadcrumbName: 'Navigation',
+                    },
+                ],
+            },
+            ...params,
+        ]
+    },
+}
+
+const getters = {
+    getBreadcrumbs(state) {
+        return state.breadcrumbs
+    },
 }
 
 const state = {
     sidebarShow: true,
+    breadcrumbs: [],
 }
 
 export default new Vuex.Store({
@@ -33,4 +64,5 @@ export default new Vuex.Store({
     },
     mutations,
     state,
+    getters,
 })
