@@ -8,6 +8,7 @@ import roles from './app/roles/vuex'
 import currencies from './app/currencies/vuex'
 import brokers from './app/brokers/vuex'
 import users from './app/users/vuex'
+import clients from './app/clients/vuex'
 
 Vue.use(Vuex)
 
@@ -61,6 +62,7 @@ export default new Vuex.Store({
         currencies,
         brokers,
         users,
+        clients,
     },
     mutations,
     state,
