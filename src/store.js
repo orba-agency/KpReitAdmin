@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import auth from './app/auth/vuex'
 import offers from './app/offers/vuex'
+import applications from './app/applications/vuex'
 import permissions from './app/permissions/vuex'
 import roles from './app/roles/vuex'
 import currencies from './app/currencies/vuex'
@@ -57,6 +58,7 @@ export default new Vuex.Store({
     modules: {
         auth,
         offers,
+        applications,
         permissions,
         roles,
         currencies,
