@@ -10,7 +10,7 @@ import permissions from './permissions/routes'
 import roles from './roles/routes'
 import currencies from './currencies/routes'
 import brokers from './brokers/routes'
-import reports from './reports/routes'
+import clients from './clients/routes'
 
 const routes = [
     {
@@ -19,7 +19,17 @@ const routes = [
         name: 'home',
         breadcrumbName: 'Home',
         component: Layout,
-        children: [...dashboard, ...offers, ...permissions, ...roles, ...currencies, ...brokers, ...users],
+        children: [
+            ...dashboard,
+            ...applications,
+            ...offers,
+            ...permissions,
+            ...roles,
+            ...currencies,
+            ...brokers,
+            ...users,
+            ...clients,
+        ],
     },
     ...auth,
     {
