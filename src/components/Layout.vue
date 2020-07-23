@@ -25,8 +25,10 @@
                 </a-menu-item>
 
                 <a-menu-item key="application_access">
-                    <a-icon type="schedule" />
-                    <span>Applications</span>
+                    <router-link :to="{ name: 'applications' }">
+                        <a-icon type="schedule" />
+                        <span>Applications</span>
+                    </router-link>
                 </a-menu-item>
 
                 <a-menu-item
@@ -57,10 +59,10 @@
                     </router-link>
                 </a-menu-item>
 
-                <a-menu-item key="client_access">
+                <!-- <a-menu-item key="client_access">
                     <a-icon type="team" />
                     <span>Clients</span>
-                </a-menu-item>
+                </a-menu-item> -->
 
                 <a-menu-item
                     key="user_access"
@@ -76,10 +78,10 @@
                     </router-link>
                 </a-menu-item>
 
-                <a-menu-item key="bank_access">
+                <!-- <a-menu-item key="bank_access">
                     <a-icon type="bank" />
                     <span>Banks</span>
-                </a-menu-item>
+                </a-menu-item> -->
 
                 <a-menu-item
                     key="broker_access"
@@ -153,10 +155,10 @@
                         </router-link>
                     </a-menu-item>
                 </a-sub-menu> -->
-                <a-menu-item key="report_access">
+                <!-- <a-menu-item key="report_access">
                     <a-icon type="line-chart" />
                     <span>Reports</span>
-                </a-menu-item>
+                </a-menu-item> -->
             </a-menu>
         </a-layout-sider>
         <a-layout>
