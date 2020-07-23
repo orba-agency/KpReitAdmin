@@ -30,6 +30,20 @@
                 </a-menu-item>
 
                 <a-menu-item
+                    key="client_access"
+                    v-if="
+                        this.$store.state.auth.user.permissions.findIndex(
+                            (permission) => permission === 'client_access'
+                        ) !== -1
+                    "
+                >
+                    <router-link :to="{ name: 'clients' }">
+                        <a-icon type="usergroup-add" />
+                        <span>Clients</span>
+                    </router-link>
+                </a-menu-item>
+
+                <a-menu-item
                     key="offer_access"
                     v-if="
                         this.$store.state.auth.user.permissions.findIndex(
