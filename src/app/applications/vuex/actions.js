@@ -60,3 +60,20 @@ export const createApplication = ({ commit }, { payload, context }) => {
             context.message = error.response.data.message
         })
 }
+
+export const approveApplication = ({ commit }, { payload, context }) => {
+    return Repository.put(`/applications/${payload.id}/approve`)
+        .then((response) => {})
+        .catch((error) => {
+            context.error = error.response.data.message
+        })
+}
+
+export const rejectApplication = ({ commit }, { payload, context }) => {
+    context.error = ''
+    return Repository.put(`/applications/${payload.id}/reject`, { reason: payload.reason })
+        .then((response) => {})
+        .catch((error) => {
+            context.error = error.response.data.message
+        })
+}
