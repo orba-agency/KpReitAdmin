@@ -11,7 +11,7 @@
             <Footer class="footer"></Footer>
         </div>
     </div> -->
-    <a-layout id="components-layout-demo-custom-trigger">
+    <a-layout id="components-layout-demo-custom-trigger" style="min-height: 100vh;">
         <a-layout-sider class="slider" theme="light" v-model="collapsed" :trigger="null" collapsible>
             <div class="logo">
                 <img src="../assets/logo.png" alt="logo" />
