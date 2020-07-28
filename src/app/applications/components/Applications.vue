@@ -42,6 +42,12 @@
                     :style="{ color: filtered ? '#108ee9' : undefined }"
                 />
                 <a slot="name" slot-scope="text">{{ text }}</a>
+                <span slot="status" slot-scope="status">
+                    <a-tag color="orange" v-if="status === 'Draft'">{{ status }}</a-tag>
+                    <a-tag color="blue" v-if="status === 'Pending'">{{ status }}</a-tag>
+                    <a-tag color="green" v-if="status === 'Approved'">{{ status }}</a-tag>
+                    <a-tag color="red" v-if="status === 'Rejected'">{{ status }}</a-tag>
+                </span>
                 <span slot="action" slot-scope="record">
                     <router-link :to="{ name: 'application-view', params: { id: record.id } }">Show</router-link>
                     <a-divider type="vertical" />
@@ -107,6 +113,7 @@ const columns = [
         title: 'Status',
         dataIndex: 'status',
         key: 'status',
+        scopedSlots: { customRender: 'status' },
         filters: [
             {
                 text: 'Draft',

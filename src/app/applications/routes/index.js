@@ -1,4 +1,4 @@
-import { Applications, ApplicationView } from '../components'
+import { Applications, ApplicationView, ApplicationEdit, ApplicationNew } from '../components'
 
 const mainBC = {
     path: '/applications',
@@ -14,6 +14,38 @@ export default [
             isAuthenticated: true,
             permission: 'application_access',
             breadcrumb: [mainBC],
+        },
+    },
+    {
+        path: '/application-new',
+        component: ApplicationNew,
+        name: 'application-new',
+        meta: {
+            isAuthenticated: true,
+            permission: 'application_create',
+            breadcrumb: [
+                mainBC,
+                {
+                    path: '/application-new',
+                    breadcrumbName: 'New Application',
+                },
+            ],
+        },
+    },
+    {
+        path: '/applications/:id/edit',
+        component: ApplicationEdit,
+        name: 'application-edit',
+        meta: {
+            isAuthenticated: true,
+            permission: 'application_edit',
+            breadcrumb: [
+                mainBC,
+                {
+                    path: '/application-edit',
+                    breadcrumbName: 'Edit Application',
+                },
+            ],
         },
     },
     {

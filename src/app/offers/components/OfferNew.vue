@@ -217,6 +217,42 @@
                 </a-form-model-item>
 
                 <a-form-model-item
+                    label="Market Value"
+                    prop="market_value"
+                    :validate-status="errors.market_value ? 'error' : ''"
+                    :help="errors.market_value ? errors.market_value[0] : null"
+                >
+                    <a-input-number v-model="form.market_value" style="width: 30%;" />
+                </a-form-model-item>
+
+                <a-form-model-item
+                    label="Distribution Value"
+                    prop="distribution_value"
+                    :validate-status="errors.distribution_value ? 'error' : ''"
+                    :help="errors.distribution_value ? errors.distribution_value[0] : null"
+                >
+                    <a-input-number v-model="form.distribution_value" style="width: 30%;" />
+                </a-form-model-item>
+
+                <a-form-model-item
+                    label="Cash Yield"
+                    prop="cash_yield"
+                    :validate-status="errors.cash_yield ? 'error' : ''"
+                    :help="errors.cash_yield ? errors.cash_yield[0] : null"
+                >
+                    <a-input-number v-model="form.cash_yield" style="width: 30%;" />
+                </a-form-model-item>
+
+                <a-form-model-item
+                    label="Internal Rate of Return (IRR)"
+                    prop="irr"
+                    :validate-status="errors.irr ? 'error' : ''"
+                    :help="errors.irr ? errors.irr[0] : null"
+                >
+                    <a-input-number v-model="form.irr" style="width: 30%;" />
+                </a-form-model-item>
+
+                <a-form-model-item
                     label="Status"
                     prop="status"
                     :validate-status="errors.status ? 'error' : ''"
@@ -417,6 +453,10 @@ export default {
                 maximum: null,
                 available: null,
                 increment_size: null,
+                market_value: null,
+                distribution_value: null,
+                cash_yield: null,
+                irr: null,
                 published: false,
                 logo_upload_id: null,
                 fees: [],
@@ -439,6 +479,10 @@ export default {
                 maximum: [{ required: true, message: 'Please add a maximum investment', trigger: 'blur' }],
                 increment_size: [{ required: true, message: 'Please add a increment size', trigger: 'blur' }],
                 available: [{ required: true, message: 'Please add a available', trigger: 'blur' }],
+                market_value: [{ required: true, message: 'Please add a market vale', trigger: 'blur' }],
+                distribution_value: [{ required: true, message: 'Please add a distribution value', trigger: 'blur' }],
+                cash_yield: [{ required: true, message: 'Please add a cash yield', trigger: 'blur' }],
+                irr: [{ required: true, message: 'Please add an IRR', trigger: 'blur' }],
                 status: [{ required: true, message: 'Please add a status' }],
                 fee: [
                     {
