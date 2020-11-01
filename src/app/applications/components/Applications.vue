@@ -1,7 +1,9 @@
 <template>
     <div>
         <a-card title="Applications" :bordered="false">
-            <a slot="extra">New</a>
+            <div slot="extra">
+                <router-link :to="{ name: 'application-new' }">New</router-link>
+            </div>
             <a-table
                 :columns="columns"
                 :data-source="applications"

@@ -41,3 +41,24 @@ export const getBase64 = (file) => {
         reader.onerror = (error) => reject(error)
     })
 }
+
+// export const downloadDocument = async function (id, config) {
+//     const result = await Repository.download<ErrorResponseData, ApplicationModel>(
+//        `${APPLICATION_BASE_ENDPOINT}/${id}/generate`,
+//        { ext: 'pdf', fileName: 'Application', mimeType: 'application/pdf' },
+//        config
+//     );
+//     return matchAndTransfrom(
+//        result,
+//        (error) => returnErrorData(error),
+//        (data) => {
+//           if (data.form_link) {
+//              let link = document.createElement('a');
+//              link.href = data.form_link;
+//              link.download = `${'Application'}-${data.offer.title}.${'pdf'}`;
+//              link.target = '_blank';
+//              link.click();
+//           }
+//        }
+//     );
+//  });
