@@ -253,6 +253,42 @@
                 </a-form-model-item>
 
                 <a-form-model-item
+                    label="Equity Multiple"
+                    prop="equity_multiple"
+                    :validate-status="errors.equity_multiple ? 'error' : ''"
+                    :help="errors.equity_multiple ? errors.equity_multiple[0] : null"
+                >
+                    <a-input-number v-model="form.equity_multiple" style="width: 30%;" />
+                </a-form-model-item>
+
+                <a-form-model-item
+                    label="Holding Period"
+                    prop="holding_period"
+                    :validate-status="errors.holding_period ? 'error' : ''"
+                    :help="errors.holding_period ? errors.holding_period[0] : null"
+                >
+                    <a-input-number v-model="form.holding_period" style="width: 30%;" />
+                </a-form-model-item>
+
+                <a-form-model-item
+                    label="Longitude"
+                    prop="longitude"
+                    :validate-status="errors.longitude ? 'error' : ''"
+                    :help="errors.longitude ? errors.longitude[0] : null"
+                >
+                    <a-input-number v-model="form.longitude" style="width: 30%;" />
+                </a-form-model-item>
+
+                <a-form-model-item
+                    label="Latitude"
+                    prop="latitude"
+                    :validate-status="errors.latitude ? 'error' : ''"
+                    :help="errors.latitude ? errors.latitude[0] : null"
+                >
+                    <a-input-number v-model="form.latitude" style="width: 30%;" />
+                </a-form-model-item>
+
+                <a-form-model-item
                     label="Status"
                     prop="status"
                     :validate-status="errors.status ? 'error' : ''"
