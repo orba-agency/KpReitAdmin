@@ -7,8 +7,8 @@ import router from './router'
 let baseDomain = ''
 
 if (process.env.NODE_ENV === 'development') {
-    baseDomain = 'https://kpapi.clientloop.io'
-    // baseDomain = 'http://127.0.0.1:8000'
+    // baseDomain = 'https://kpapi.clientloop.io'
+    baseDomain = 'http://kpreitapi.test'
 }
 
 const baseVersionedUrl = `${baseDomain}/api/v1/admin`
