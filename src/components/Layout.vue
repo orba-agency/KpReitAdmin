@@ -84,6 +84,20 @@
                 </a-menu-item> -->
 
                 <a-menu-item
+                    key="report_access"
+                    v-if="
+                        this.$store.state.auth.user.permissions.findIndex(
+                            (permission) => permission === 'report_access'
+                        ) !== -1
+                    "
+                >
+                    <router-link :to="{ name: 'reports' }">
+                        <a-icon type="bar-chart" />
+                        <span>Reports</span>
+                    </router-link>
+                </a-menu-item>
+
+                <a-menu-item
                     key="setting_access"
                     v-if="
                         this.$store.state.auth.user.permissions.findIndex(

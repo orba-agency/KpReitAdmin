@@ -11,6 +11,7 @@ import brokers from './app/brokers/vuex'
 import users from './app/users/vuex'
 import clients from './app/clients/vuex'
 import settings from './app/settings/vuex'
+import reports from './app/reports/vuex'
 
 Vue.use(Vuex)
 
@@ -67,6 +68,7 @@ export default new Vuex.Store({
         users,
         clients,
         settings,
+        reports,
     },
     mutations,
     state,
