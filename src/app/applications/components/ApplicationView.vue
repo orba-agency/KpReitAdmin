@@ -138,6 +138,10 @@
                     {{ application.detail.incorporation }}
                 </a-descriptions-item>
 
+                <a-descriptions-item label="JCSD Account Number">
+                    {{ application.jcsd_account_number }}
+                </a-descriptions-item>
+
                 <a-descriptions-item label="Pdf Form" v-if="application.form_link">
                     <a
                         class="ant-btn ant-btn-success"
