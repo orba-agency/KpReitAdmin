@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a-row :gutter="16">
+        <!-- <a-row :gutter="16">
             <a-col :span="8">
                 <a-statistic title="Clients" :value="1128" style="margin-right: 50px;">
                     <template #suffix>
@@ -42,10 +42,18 @@
                 <a-progress type="circle" :percent="70" status="exception" />
                 <a-progress type="circle" :percent="100" />
             </a-col>
-        </a-row>
+        </a-row> -->
+
+        <BarChart />
     </div>
 </template>
 
 <script>
-export default {}
+import BarChart from './BarChart'
+
+export default {
+    components: {
+        BarChart,
+    },
+}
 </script>
