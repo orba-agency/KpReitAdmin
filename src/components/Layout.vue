@@ -84,6 +84,20 @@
                 </a-menu-item> -->
 
                 <a-menu-item
+                    key="setting_access"
+                    v-if="
+                        this.$store.state.auth.user.permissions.findIndex(
+                            (permission) => permission === 'setting_access'
+                        ) !== -1
+                    "
+                >
+                    <router-link :to="{ name: 'settings' }">
+                        <a-icon type="setting" />
+                        <span>Settings</span>
+                    </router-link>
+                </a-menu-item>
+
+                <a-menu-item
                     key="broker_access"
                     v-if="
                         this.$store.state.auth.user.permissions.findIndex(

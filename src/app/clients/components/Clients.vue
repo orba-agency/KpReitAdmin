@@ -41,8 +41,9 @@ import { mapActions } from 'vuex'
 const columns = [
     {
         title: 'Name',
+        dataIndex: 'name',
         key: 'name',
-        scopedSlots: { customRender: 'full-name' },
+        // scopedSlots: { customRender: 'full-name' },
     },
     {
         title: 'Email',

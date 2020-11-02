@@ -14,13 +14,16 @@
         </a-popconfirm>
         <a-descriptions title="Client Info">
             <a-descriptions-item label="Name" span="3">
-                {{ user.first_name }} {{ user.last_name }}
+                {{ user.name }}
             </a-descriptions-item>
             <a-descriptions-item label="Email" span="3">
                 {{ user.email }}
             </a-descriptions-item>
             <a-descriptions-item label="Email Verified At" span="3">
                 {{ user.email_verified_at }}
+            </a-descriptions-item>
+            <a-descriptions-item label="Type" span="3">
+                {{ user.type }}
             </a-descriptions-item>
             <a-descriptions-item label="Accredited Investor" span="3">
                 {{ user.accredited_investor ? 'YES' : 'NO' }}

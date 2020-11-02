@@ -11,6 +11,7 @@ import roles from './roles/routes'
 import currencies from './currencies/routes'
 import brokers from './brokers/routes'
 import clients from './clients/routes'
+import settings from './settings/routes'
 
 const routes = [
     {
@@ -29,6 +30,7 @@ const routes = [
             ...brokers,
             ...users,
             ...clients,
+            ...settings,
         ],
     },
     ...auth,

@@ -10,6 +10,7 @@ import currencies from './app/currencies/vuex'
 import brokers from './app/brokers/vuex'
 import users from './app/users/vuex'
 import clients from './app/clients/vuex'
+import settings from './app/settings/vuex'
 
 Vue.use(Vuex)
 
@@ -65,6 +66,7 @@ export default new Vuex.Store({
         brokers,
         users,
         clients,
+        settings,
     },
     mutations,
     state,
