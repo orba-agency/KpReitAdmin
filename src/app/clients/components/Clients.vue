@@ -46,6 +46,11 @@ const columns = [
         // scopedSlots: { customRender: 'full-name' },
     },
     {
+        title: 'Account',
+        dataIndex: 'type',
+        key: 'type',
+    },
+    {
         title: 'Email',
         dataIndex: 'email',
         key: 'email',
