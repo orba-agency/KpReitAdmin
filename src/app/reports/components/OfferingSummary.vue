@@ -25,16 +25,16 @@ const columns = [
         dataIndex: 'summary.total_count',
         key: 'count',
     },
-    {
-        title: 'Unit Price',
-        dataIndex: 'unit_price',
-        key: 'unit_price',
-    },
-    {
-        title: 'Units',
-        dataIndex: 'summary.total_units',
-        key: 'units',
-    },
+    // {
+    //     title: 'Unit Price',
+    //     dataIndex: 'unit_price',
+    //     key: 'unit_price',
+    // },
+    // {
+    //     title: 'Units',
+    //     dataIndex: 'summary.total_units',
+    //     key: 'units',
+    // },
     {
         title: 'Amount',
         dataIndex: 'summary.total_amount',
