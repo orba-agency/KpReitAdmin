@@ -26,7 +26,7 @@ git add dist -f
 git commit -m "Build"
 
 echo -e "\033[1;33m STEP 4: PUSHING TO REMOTE \e[0m"
-git push deployment deploy
+git push origin deploy
 
 echo -e "\033[1;33m STEP 5: SWITCHING BACK TO MASTER \e[0m"
 git checkout master
