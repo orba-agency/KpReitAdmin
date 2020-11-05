@@ -97,8 +97,8 @@ import { mapActions } from 'vuex'
 export default {
     data() {
         return {
-            email: 'romario@orba.io',
-            password: 'password',
+            email: '',
+            password: '',
             message: null,
             errors: [],
             submitButton: {
