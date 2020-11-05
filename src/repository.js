@@ -4,7 +4,7 @@ import localforage from 'localforage'
 import store from './store'
 import router from './router'
 
-let baseDomain = ''
+let baseDomain = 'https://kpapi.clientloop.io'
 
 if (process.env.NODE_ENV === 'development') {
     baseDomain = 'https://kpapi.clientloop.io'
