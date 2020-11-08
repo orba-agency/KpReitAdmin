@@ -47,7 +47,7 @@
                     :validate-status="errors.password ? 'error' : ''"
                     :help="errors.title ? errors.password[0] : null"
                 >
-                    <a-input v-model="form.password" />
+                    <a-input-password v-model="form.password" />
                 </a-form-model-item>
 
                 <a-form-model-item
