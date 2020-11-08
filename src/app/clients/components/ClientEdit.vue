@@ -30,26 +30,6 @@
                     <a-input v-model="form.last_name" />
                 </a-form-model-item>
 
-                <a-form-model-item
-                    ref="roles"
-                    label="Roles"
-                    prop="roles"
-                    :validate-status="errors.roles ? 'error' : ''"
-                    :help="errors.roles ? errors.roles[0] : null"
-                >
-                    <a-select
-                        mode="multiple"
-                        :value="form.roles"
-                        style="width: 100%;"
-                        placeholder="Please select roles"
-                        @change="handleChange"
-                    >
-                        <a-select-option v-for="val in roles" :key="val.id">
-                            {{ val.title }}
-                        </a-select-option>
-                    </a-select>
-                </a-form-model-item>
-
                 <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
                     <a-button type="primary" :disabled="submitButton.processing" @click="onSubmit">
                         {{ submitButton.name }}
@@ -80,14 +60,11 @@ export default {
             form: {
                 first_name: null,
                 last_name: null,
-                email: null,
                 password: null,
-                roles: [],
             },
             rules: {
                 first_name: [{ required: true, message: 'Please add first name', trigger: 'blur' }],
                 last_name: [{ required: true, message: 'Please add last name', trigger: 'blur' }],
-                roles: [{ required: true, message: 'Please select role', trigger: 'change' }],
             },
         }
     },
@@ -105,9 +82,9 @@ export default {
     },
     methods: {
         ...mapActions({
-            updateUser: 'users/updateUser',
-            fetchUser: 'users/fetchUser',
-            fetchAll: 'roles/fetchAll',
+            updateUser: 'clients/updateUser',
+            fetchUser: 'clients/fetchUser',
+            fetchAll: 'clients/fetchAll',
         }),
         onSubmit() {
             this.$refs.ruleForm.validate((valid) => {
@@ -129,7 +106,7 @@ export default {
                         if (this.errors.root) {
                             return
                         } else {
-                            this.$router.replace({ name: 'users' })
+                            this.$router.replace({ name: 'clients' })
                         }
                     })
                 } else {
