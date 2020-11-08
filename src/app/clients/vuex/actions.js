@@ -56,8 +56,17 @@ export const createUser = ({ commit }, { payload, context }) => {
     context.errors = []
     context.message = null
 
+    if (payload.type === 'Individual') {
+        delete payload.corporation
+    } else {
+        delete payload.first_name
+        delete payload.last_name
+    }
+
     return Repository.post('/clients', payload)
-        .then((response) => {})
+        .then((response) => {
+            return response.data
+        })
         .catch((error) => {
             context.errors = error.response.data.errors || []
             context.message = error.response.data.message
