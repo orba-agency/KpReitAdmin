@@ -1,7 +1,7 @@
 <template>
     <div>
         <a-card title="Clients" :bordered="false">
-            <router-link slot="extra" :to="{ name: 'user-new' }">New</router-link>
+            <router-link slot="extra" :to="{ name: 'client-new' }">New</router-link>
             <a-table
                 :columns="columns"
                 :data-source="users"
