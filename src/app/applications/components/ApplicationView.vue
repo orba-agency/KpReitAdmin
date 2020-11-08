@@ -15,7 +15,7 @@
                 </a-popconfirm>
             </div>
             <div style="float: right;" v-if="application.status === 'Pending'">
-                <a-popconfirm
+                <!-- <a-popconfirm
                     title="Are you sure？"
                     ok-text="Yes"
                     cancel-text="No"
@@ -29,7 +29,38 @@
                     <a-button type="success" class="m5">
                         Approve
                     </a-button>
-                </a-popconfirm>
+                </a-popconfirm> -->
+                <a-button
+                    type="success"
+                    class="m5"
+                    @click="showApproveModal"
+                    v-if="
+                        this.$store.state.auth.user.permissions.findIndex(
+                            (permission) => permission === 'application_approve'
+                        ) !== -1
+                    "
+                >
+                    Approve
+                </a-button>
+                <a-modal
+                    title="Approve Application."
+                    :visible="approveVisible"
+                    :confirm-loading="confirmLoading"
+                    @ok="handleApproveOk"
+                    @cancel="handleCancel"
+                >
+                    <a-form-model
+                        ref="ruleForm"
+                        :model="form"
+                        :rules="rules"
+                        :label-col="labelCol"
+                        :wrapper-col="wrapperCol"
+                    >
+                        <a-form-model-item label="Approved Amount" prop="amount">
+                            <a-input v-model="form.amount" :parser="(value) => value.replace(/\$\s?|(,*)/g, '')" />
+                        </a-form-model-item>
+                    </a-form-model>
+                </a-modal>
                 <a-button
                     type="danger"
                     class="m5"
@@ -111,11 +142,40 @@
                 </a-descriptions-item>
 
                 <a-descriptions-item label="Units">
-                    {{ application.units }}
+                    <a-popover title="Units">
+                        <template slot="content">
+                            <p>
+                                Units: <strong>{{ application.units }}</strong>
+                            </p>
+                            <p>
+                                Approved Units: <strong>{{ application.approved_units }}</strong>
+                            </p>
+                            <p>
+                                Alloted Units: <strong>{{ application.alloted_units }}</strong>
+                            </p>
+                        </template>
+                        {{
+                            application.alloted_units
+                                ? application.alloted_units
+                                : application.approved_units
+                                ? application.approved_units
+                                : application.units
+                        }}
+                    </a-popover>
                 </a-descriptions-item>
 
                 <a-descriptions-item label="Amount">
-                    {{ application.amount }}
+                    <a-popover title="Amount">
+                        <template slot="content">
+                            <p>
+                                Amount: <strong>{{ application.amount }}</strong>
+                            </p>
+                            <p>
+                                Final Amount: <strong>{{ application.approved_amount }}</strong>
+                            </p>
+                        </template>
+                        {{ application.approved_amount ? application.approved_amount : application.amount }}
+                    </a-popover>
                 </a-descriptions-item>
 
                 <a-descriptions-item label="TRN">
@@ -372,13 +432,22 @@ const key = 'updatable'
 export default {
     data() {
         return {
+            labelCol: { span: 8 },
+            wrapperCol: { span: 12 },
             application: {},
             state: {
                 loaded: false,
             },
+            approveVisible: false,
             visible: false,
             confirmLoading: false,
             reason: null,
+            form: {
+                amount: null,
+            },
+            rules: {
+                amount: [{ required: true, message: 'Approved amount is required', trigger: 'blur' }],
+            },
         }
     },
     created() {
@@ -388,6 +457,7 @@ export default {
             },
             context: this,
         }).then(() => {
+            this.form.amount = JSON.parse(JSON.stringify(this.application.amount))
             this.state.loaded = true
         })
     },
@@ -449,6 +519,34 @@ export default {
         },
         handleCancel(e) {
             this.visible = false
+            this.approveVisible = false
+        },
+        showApproveModal() {
+            this.approveVisible = true
+        },
+        handleApproveOk(e) {
+            this.confirmLoading = true
+            this.approveApplication({
+                payload: {
+                    id: this.$route.params.id,
+                    amount: this.form.amount,
+                },
+                context: this,
+            }).then((res) => {
+                this.approveVisible = false
+                this.confirmLoading = false
+                if (this.error) {
+                    this.$message.error({ content: this.error, key, duration: 2 })
+                } else {
+                    this.$message.success({
+                        content: 'Approved successfully!',
+                        key,
+                        duration: 2,
+                    })
+
+                    this.application.status = 'Approved'
+                }
+            })
         },
     },
 }
