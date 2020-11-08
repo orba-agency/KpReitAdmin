@@ -106,6 +106,28 @@
                 </a-form-model-item>
 
                 <a-form-model-item
+                    label="Asset Type"
+                    prop="asset_type"
+                    :validate-status="errors.asset_type ? 'error' : ''"
+                    :help="errors.asset_type ? errors.asset_type[0] : null"
+                >
+                    <a-select v-model="form.asset_type" placeholder="Please select an asset type">
+                        <a-select-option value="Multi Family">
+                            Multi Family
+                        </a-select-option>
+                        <a-select-option value="Mixed Use">
+                            Mixed Use
+                        </a-select-option>
+                        <a-select-option value="Office">
+                            Office
+                        </a-select-option>
+                        <a-select-option value="Industrial">
+                            Industrial
+                        </a-select-option>
+                    </a-select>
+                </a-form-model-item>
+
+                <a-form-model-item
                     label="Opening Date"
                     required
                     prop="opening_date"
@@ -479,6 +501,7 @@ export default {
                 short_name: null,
                 description: null,
                 type: null,
+                asset_type: null,
                 broker_id: null,
                 currency_id: null,
                 status: null,
@@ -508,6 +531,7 @@ export default {
                 broker_id: [{ required: true, message: 'Please select a broker', trigger: 'change' }],
                 currency_id: [{ required: true, message: 'Please select a currency', trigger: 'change' }],
                 type: [{ required: true, message: 'Please select a type', trigger: 'change' }],
+                asset_type: [{ required: true, message: 'Please select an asset type', trigger: 'change' }],
                 opening_date: [{ required: true, message: 'Please pick a date', trigger: 'change' }],
                 closing_date: [{ required: true, message: 'Please pick a date', trigger: 'change' }],
                 unit_price: [{ required: true, message: 'Please add a unit price', trigger: 'blur' }],
