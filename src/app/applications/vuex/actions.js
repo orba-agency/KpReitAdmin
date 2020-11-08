@@ -62,7 +62,7 @@ export const createApplication = ({ commit }, { payload, context }) => {
 }
 
 export const approveApplication = ({ commit }, { payload, context }) => {
-    return Repository.put(`/applications/${payload.id}/approve`)
+    return Repository.put(`/applications/${payload.id}/approve`, { amount: payload.amount })
         .then((response) => {})
         .catch((error) => {
             context.error = error.response.data.message
