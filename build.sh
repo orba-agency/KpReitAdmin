@@ -17,6 +17,7 @@ npm run build --fix
 
 echo -e "\033[1;33m STEP 2: SWITCHING TO DEPLOY BRANCH \e[0m"
 # https://stackoverflow.com/questions/23698183/how-to-force-cp-to-overwrite-directory-instead-of-creating-another-one-inside
+cp -TRv .htaccess dist/.htaccess
 cp -TRv dist post-dist
 git checkout deploy
 cp -TRv post-dist dist
@@ -33,3 +34,4 @@ git checkout master
 
 echo -e "\033[1;33m STEP 6: CLEANING UP \e[0m"
 rm -r post-dist
+
