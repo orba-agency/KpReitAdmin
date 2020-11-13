@@ -28,6 +28,7 @@
 import { mapActions } from 'vuex'
 import ClientInfo from '../partials/ClientInfo'
 import AccreditationInfo from '../partials/AccreditationInfo'
+import moment from 'moment'
 
 const key = 'updatable'
 
@@ -67,6 +68,7 @@ export default {
                     this.user.accredited_investor_data.questionnaire.liability_debt +
                     this.user.accredited_investor_data.questionnaire.liability_real_estate
             }
+            this.user.email_verified_at = moment(this.user.email_verified_at).format('MMM D, YYYY hh:mm A')
         })
     },
     methods: {

@@ -138,12 +138,12 @@ const columns = [
     },
     {
         title: 'Units',
-        dataIndex: 'units',
+        dataIndex: 'unit_formatted',
         key: 'units',
     },
     {
         title: 'Value',
-        dataIndex: 'amount',
+        dataIndex: 'amount_formatted',
         key: 'amount',
     },
     {
@@ -204,6 +204,11 @@ export default {
                         item.type === 'Corporation'
                             ? item.detail.corporation
                             : item.detail.first_name + ' ' + item.detail.last_name
+                    item.amount_formatted = `${item.offer.currency.symbol}${item.amount.toLocaleString('en-US', {
+                        maximumFractionDigits: 2,
+                    })} ${item.offer.currency.code}`
+
+                    item.unit_formatted = item.units.toLocaleString()
                     return item
                 })
 

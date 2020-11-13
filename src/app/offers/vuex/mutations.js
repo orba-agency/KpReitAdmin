@@ -10,7 +10,7 @@ export const setOfferData = (state, data) => {
             type: offer.type,
             broker: offer.broker.name,
             status: offer.status,
-            unitPrice: `${offer.currency.symbol}${offer.unit_price} ${offer.currency.code}`,
+            unitPrice: `${offer.currency.symbol}${offer.unit_price.toLocaleString()} ${offer.currency.code}`,
             investmentDate: `${moment(offer.opening_date).format('MMM D')} - ${moment(offer.closing_date).format(
                 'MMM D, YYYY'
             )}`,

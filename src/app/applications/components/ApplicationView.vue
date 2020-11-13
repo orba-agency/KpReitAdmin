@@ -108,7 +108,7 @@
                             {{ application.detail.title }} {{ application.detail.first_name }}
                             {{ application.detail.last_name }}
                         </span>
-                        <span v-else>{{ application.detail.corporation }}</span>
+                        <span v-if="application.type === 'Corporation'">{{ application.detail.corporation }}</span>
                     </router-link>
                 </a-descriptions-item>
 
@@ -145,21 +145,21 @@
                     <a-popover title="Units">
                         <template slot="content">
                             <p>
-                                Units: <strong>{{ application.units }}</strong>
+                                Units: <strong>{{ application.unit_formatted }}</strong>
                             </p>
                             <p>
-                                Approved Units: <strong>{{ application.approved_units }}</strong>
+                                Approved Units: <strong>{{ application.approved_unit_formatted }}</strong>
                             </p>
                             <p>
-                                Alloted Units: <strong>{{ application.alloted_units }}</strong>
+                                Alloted Units: <strong>{{ application.alloted_unit_formatted }}</strong>
                             </p>
                         </template>
                         {{
                             application.alloted_units
-                                ? application.alloted_units
+                                ? application.alloted_unit_formatted
                                 : application.approved_units
-                                ? application.approved_units
-                                : application.units
+                                ? application.approved_unit_formatted
+                                : application.unit_formatted
                         }}
                     </a-popover>
                 </a-descriptions-item>
@@ -168,13 +168,17 @@
                     <a-popover title="Amount">
                         <template slot="content">
                             <p>
-                                Amount: <strong>{{ application.amount }}</strong>
+                                Amount: <strong>{{ application.amount_formatted }}</strong>
                             </p>
                             <p>
-                                Final Amount: <strong>{{ application.approved_amount }}</strong>
+                                Final Amount: <strong>{{ application.approved_amount_formatted }}</strong>
                             </p>
                         </template>
-                        {{ application.approved_amount ? application.approved_amount : application.amount }}
+                        {{
+                            application.approved_amount
+                                ? application.approved_amount_formatted
+                                : application.amount_formatted
+                        }}
                     </a-popover>
                 </a-descriptions-item>
 
@@ -255,7 +259,10 @@
             </a-descriptions>
             <a-divider />
 
-            <a-descriptions title="Joint Holders" v-if="application.type === 'Individual'"></a-descriptions>
+            <a-descriptions
+                title="Joint Holders"
+                v-if="application.type === 'Individual' && application.joint_accounts.length"
+            ></a-descriptions>
             <div v-for="item in application.joint_accounts" :key="item.created_at">
                 <a-descriptions :span="3">
                     <a-descriptions-item label="Name"> {{ item.first_name }} {{ item.last_name }} </a-descriptions-item>
@@ -308,7 +315,7 @@
                 <a-divider />
             </div>
 
-            <a-descriptions title="Payment">
+            <a-descriptions title="Payment" v-if="application.payment">
                 <a-descriptions-item label="Source of Funds">
                     {{ application.payment.source_of_funds }}
                 </a-descriptions-item>
@@ -373,7 +380,7 @@
             </a-descriptions>
             <a-divider />
 
-            <a-descriptions title="Refund">
+            <a-descriptions title="Refund" v-if="application.refund">
                 <a-descriptions-item label="Type">
                     {{ application.refund.type }}
                 </a-descriptions-item>
@@ -458,6 +465,21 @@ export default {
             context: this,
         }).then(() => {
             this.form.amount = JSON.parse(JSON.stringify(this.application.amount))
+            this.application.amount_formatted = `${
+                this.application.offer.currency.symbol
+            }${this.application.amount.toLocaleString('en-US', {
+                maximumFractionDigits: 2,
+            })} ${this.application.offer.currency.code}`
+
+            this.application.approved_amount_formatted = `${
+                this.application.offer.currency.symbol
+            }${this.application.approved_amount.toLocaleString('en-US', {
+                maximumFractionDigits: 2,
+            })} ${this.application.offer.currency.code}`
+
+            this.application.unit_formatted = this.application.units.toLocaleString()
+            this.application.approved_unit_formatted = this.application.approved_units.toLocaleString()
+            this.application.allotted_unit_formatted = this.application.allotted_units.toLocaleString()
             this.state.loaded = true
         })
     },
