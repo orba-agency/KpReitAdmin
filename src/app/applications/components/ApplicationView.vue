@@ -57,7 +57,10 @@
                         :wrapper-col="wrapperCol"
                     >
                         <a-form-model-item label="Approved Amount" prop="amount">
-                            <a-input v-model="form.amount" :parser="(value) => value.replace(/\$\s?|(,*)/g, '')" />
+                            <a-input
+                                v-model="form.investment_amount"
+                                :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+                            />
                         </a-form-model-item>
                     </a-form-model>
                 </a-modal>
