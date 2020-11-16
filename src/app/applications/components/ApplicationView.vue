@@ -57,10 +57,7 @@
                         :wrapper-col="wrapperCol"
                     >
                         <a-form-model-item label="Approved Amount" prop="amount">
-                            <a-input
-                                v-model="form.investment_amount"
-                                :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
-                            />
+                            <a-input v-model="form.amount" :parser="(value) => value.replace(/\$\s?|(,*)/g, '')" />
                         </a-form-model-item>
                     </a-form-model>
                 </a-modal>
@@ -467,7 +464,7 @@ export default {
             },
             context: this,
         }).then(() => {
-            this.form.amount = JSON.parse(JSON.stringify(this.application.amount))
+            this.form.amount = JSON.parse(JSON.stringify(this.application.investment_amount))
             this.application.amount_formatted = `${
                 this.application.offer.currency.symbol
             }${this.application.amount.toLocaleString('en-US', {
