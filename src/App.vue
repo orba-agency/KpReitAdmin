@@ -12,6 +12,7 @@ export default {
 
 <style>
 @import '../node_modules/ant-design-vue/dist/antd.css';
+@import '~vue-wysiwyg/dist/vueWysiwyg.css';
 
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
