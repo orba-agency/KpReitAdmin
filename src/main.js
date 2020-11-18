@@ -6,11 +6,13 @@ import store from './store'
 import { iconsSet as icons } from './assets/icons.js'
 import Antd from 'ant-design-vue'
 import 'core-js/stable'
+import wysiwyg from 'vue-wysiwyg'
 
 localforage.config({
     driver: localforage.LOCALSTORAGE,
 })
 Vue.use(Antd)
+Vue.use(wysiwyg, {})
 
 store
     .dispatch('auth/setToken')
