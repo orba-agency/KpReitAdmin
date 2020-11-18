@@ -301,7 +301,10 @@
                 <a-divider />
             </div>
 
-            <a-descriptions title="Directors" v-if="application.type === 'Corporation'"></a-descriptions>
+            <a-descriptions
+                title="Directors"
+                v-if="application.type === 'Corporation' && application.directors.length"
+            ></a-descriptions>
             <div v-for="item in application.directors" :key="item.created_at">
                 <a-descriptions>
                     <a-descriptions-item label="Name"> {{ item.first_name }} {{ item.last_name }} </a-descriptions-item>
