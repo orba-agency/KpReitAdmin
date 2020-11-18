@@ -58,3 +58,26 @@ export const deleteGallery = ({ commit }, { payload, context }) => {
             context.error = error.response.data.message
         })
 }
+
+export const savePayment = ({ commit }, { payload, context }) => {
+    context.error = null
+
+    return Repository.put(`/offers/${context.offer_id}/payments`, payload)
+        .then((response) => {
+            return response.data
+        })
+        .catch((error) => {
+            context.error = error.response.data.message
+        })
+}
+
+export const deletePayment = ({ commit }, { payload, context }) => {
+    context.error = null
+    return Repository.delete(`/offers/${context.offer_id}/payments/${payload.id}`)
+        .then((response) => {
+            return response.data
+        })
+        .catch((error) => {
+            context.error = error.response.data.message
+        })
+}

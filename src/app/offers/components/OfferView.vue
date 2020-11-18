@@ -17,13 +17,16 @@
                 <a-tab-pane key="1" tab="Details">
                     <OfferDetail v-bind:offer="offer" />
                 </a-tab-pane>
-                <a-tab-pane key="2" tab="Fees">
+                <a-tab-pane key="2" tab="Payment Instructions">
+                    <OfferPayment v-bind:payments="offer.payments" v-bind:offer_id="offer.id" @update-offer="update" />
+                </a-tab-pane>
+                <a-tab-pane key="3" tab="Fees">
                     <OfferFees v-bind:fees="offer.fees" />
                 </a-tab-pane>
-                <a-tab-pane key="3" tab="Gallery">
+                <a-tab-pane key="4" tab="Gallery">
                     <OfferGallery v-bind:galleries="galleries" />
                 </a-tab-pane>
-                <a-tab-pane key="4" tab="Videos">
+                <a-tab-pane key="5" tab="Videos">
                     <OfferVideo v-bind:videos="videos" />
                 </a-tab-pane>
             </a-tabs>
@@ -37,6 +40,7 @@ import OfferDetail from '../partials/OfferDetail'
 import OfferFees from '../partials/OfferFees'
 import OfferGallery from '../partials/OfferGallery'
 import OfferVideo from '../partials/OfferVideo'
+import OfferPayment from '../partials/OfferPayment'
 
 export default {
     components: {
@@ -44,6 +48,7 @@ export default {
         OfferFees,
         OfferGallery,
         OfferVideo,
+        OfferPayment,
     },
     data() {
         return {
@@ -94,6 +99,9 @@ export default {
         }),
         callback(key) {
             console.log(key)
+        },
+        update(offer) {
+            this.offer = offer
         },
     },
 }
