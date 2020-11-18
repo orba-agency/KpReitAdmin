@@ -69,6 +69,19 @@ export default {
                     this.user.accredited_investor_data.questionnaire.liability_real_estate
             }
             this.user.email_verified_at = moment(this.user.email_verified_at).format('MMM D, YYYY hh:mm A')
+            if (this.user.accredited_investor_data.identification) {
+                if (this.user.accredited_investor_data.identification.back) {
+                    this.user.accredited_investor_data.documents.unshift({
+                        type: this.user.accredited_investor_data.identification.type + ' - Back',
+                        link: this.user.accredited_investor_data.identification.front,
+                    })
+                }
+
+                this.user.accredited_investor_data.documents.unshift({
+                    type: this.user.accredited_investor_data.identification.type,
+                    link: this.user.accredited_investor_data.identification.front,
+                })
+            }
         })
     },
     methods: {
